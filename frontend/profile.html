@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Smart Finance Advisor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body class="dashboard-page">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">💰</div>
+                <span>SmartFinance</span>
+            </a>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
+            <a href="transactions.html" class="nav-item"><i
+                    class="fas fa-exchange-alt"></i><span>Transactions</span></a>
+            <a href="investments.html" class="nav-item"><i class="fas fa-chart-pie"></i><span>Investments</span></a>
+            <a href="insights.html" class="nav-item"><i class="fas fa-lightbulb"></i><span>AI Insights</span></a>
+            <a href="goals.html" class="nav-item"><i class="fas fa-bullseye"></i><span>Goals</span></a>
+            <div class="nav-divider"></div>
+            <a href="profile.html" class="nav-item active"><i class="fas fa-user"></i><span>Profile</span></a>
+            <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button onclick="logout()" class="nav-item logout"><i
+                    class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <h2 class="page-title-topbar">My Profile</h2>
+            </div>
+            <div class="topbar-right">
+                <div class="notification-wrapper">
+                    <button class="notification-btn" id="notificationBtn"><i class="fas fa-bell"></i><span class="badge"
+                            id="notificationBadge">3</span></button>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <button class="mark-all-read" id="markAllRead">Mark all as read</button>
+                        </div>
+                        <div class="notification-list" id="notificationList">
+                            <div class="notification-item unread">
+                                <div class="notification-icon alert"><i class="fas fa-exclamation-circle"></i></div>
+                                <div class="notification-content">
+                                    <p>Your food expenses exceeded ₹5,000 this week</p>
+                                    <span class="notification-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notification-icon success"><i class="fas fa-check-circle"></i></div>
+                                <div class="notification-content">
+                                    <p>Salary credited: ₹75,000</p>
+                                    <span class="notification-time">Yesterday</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all-notifications">View All Notifications</a>
+                    </div>
+                </div>
+                <div class="user-menu-wrapper">
+                    <div class="user-menu" id="userMenuBtn">
+                        <div class="user-avatar" id="userAvatar">JD</div>
+                        <span class="user-name" id="userName">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="dropdown-user-info">
+                            <div class="dropdown-avatar" id="dropdownAvatar">JD</div>
+                            <div class="dropdown-user-details">
+                                <span class="dropdown-user-name" id="dropdownUserName">User</span>
+                                <span class="dropdown-user-email" id="dropdownUserEmail">user@email.com</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i>My Profile</a>
+                        <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i>Settings</a>
+                        <a href="goals.html" class="dropdown-item"><i class="fas fa-bullseye"></i>Goals</a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-item" onclick="logout()"><i
+                                class="fas fa-sign-out-alt"></i>Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Profile Content -->
+        <div class="dashboard-content">
+            <div class="profile-container">
+                <!-- Profile Header -->
+                <div class="profile-header-card">
+                    <div class="profile-avatar-large" id="profileAvatarLarge">JD</div>
+                    <div class="profile-header-info">
+                        <h1 id="profileName">John Doe</h1>
+                        <p id="profileEmail">johndoe@email.com</p>
+                        <span class="profile-badge"><i class="fas fa-check-circle"></i> Verified Account</span>
+                    </div>
+                    <button class="btn btn-secondary edit-profile-btn" onclick="openModal('editProfileModal')">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+
+                <!-- Profile Stats -->
+                <div class="profile-stats-grid">
+                    <div class="profile-stat-card">
+                        <div class="stat-icon income"><i class="fas fa-calendar"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Member Since</span>
+                            <span class="stat-value" id="memberSince">Jan 2026</span>
+                        </div>
+                    </div>
+                    <div class="profile-stat-card">
+                        <div class="stat-icon savings"><i class="fas fa-exchange-alt"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Transactions</span>
+                            <span class="stat-value" id="totalTransactions">0</span>
+                        </div>
+                    </div>
+                    <div class="profile-stat-card">
+                        <div class="stat-icon investment"><i class="fas fa-bullseye"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Goals Completed</span>
+                            <span class="stat-value" id="goalsCompleted">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Details -->
+                <div class="profile-details-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-user"></i> Personal Information</h3>
+                        </div>
+                        <div class="profile-info-list">
+                            <div class="profile-info-item">
+                                <span class="info-label">Full Name</span>
+                                <span class="info-value" id="infoName">John Doe</span>
+                            </div>
+                            <div class="profile-info-item">
+                                <span class="info-label">Email Address</span>
+                                <span class="info-value" id="infoEmail">johndoe@email.com</span>
+                            </div>
+                            <div class="profile-info-item">
+                                <span class="info-label">Phone Number</span>
+                                <span class="info-value" id="infoPhone">+91 9876543210</span>
+                            </div>
+                            <div class="profile-info-item">
+                                <span class="info-label">Date of Birth</span>
+                                <span class="info-value" id="infoDob">Not set</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-shield-alt"></i> Account Security</h3>
+                        </div>
+                        <div class="profile-info-list">
+                            <div class="profile-info-item">
+                                <span class="info-label">Password</span>
+                                <span class="info-value">••••••••</span>
+                            </div>
+                            <div class="profile-info-item">
+                                <span class="info-label">Two-Factor Auth</span>
+                                <span class="info-value status-inactive">Disabled</span>
+                            </div>
+                            <div class="profile-info-item">
+                                <span class="info-label">Last Login</span>
+                                <span class="info-value" id="lastLogin">Today</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">
+                            <i class="fas fa-key"></i> Change Password
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-overlay" onclick="closeModal('editProfileModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <button class="modal-close" onclick="closeModal('editProfileModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="editProfileForm" class="modal-body">
+                <div class="form-group">
+                    <label for="editName">Full Name</label>
+                    <input type="text" id="editName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email Address</label>
+                    <input type="email" id="editEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="editPhone">Phone Number</label>
+                    <input type="tel" id="editPhone" placeholder="Enter your phone number">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Check authentication
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'login.html';
+        }
+
+        // Load user info
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const initials = (user.name || 'U').substring(0, 2).toUpperCase();
+
+        // Update all user displays
+        document.getElementById('userName').textContent = user.name || 'User';
+        document.getElementById('userAvatar').textContent = initials;
+        document.getElementById('profileAvatarLarge').textContent = initials;
+        document.getElementById('profileName').textContent = user.name || 'User';
+        document.getElementById('profileEmail').textContent = user.email || 'user@email.com';
+        document.getElementById('infoName').textContent = user.name || 'User';
+        document.getElementById('infoEmail').textContent = user.email || 'user@email.com';
+        document.getElementById('dropdownAvatar').textContent = initials;
+        document.getElementById('dropdownUserName').textContent = user.name || 'User';
+        document.getElementById('dropdownUserEmail').textContent = user.email || 'user@email.com';
+
+        // Get transaction count
+        const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+        document.getElementById('totalTransactions').textContent = transactions.length;
+
+        // Modal functions
+        window.openModal = function (id) { document.getElementById(id).classList.add('active'); };
+        window.closeModal = function (id) { document.getElementById(id).classList.remove('active'); };
+
+        // Prefill edit form
+        document.getElementById('editName').value = user.name || '';
+        document.getElementById('editEmail').value = user.email || '';
+        document.getElementById('editPhone').value = user.phone || '';
+
+        // Handle profile edit
+        document.getElementById('editProfileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const updatedUser = {
+                ...user,
+                name: document.getElementById('editName').value,
+                email: document.getElementById('editEmail').value,
+                phone: document.getElementById('editPhone').value
+            };
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            closeModal('editProfileModal');
+            showNotification('Profile updated successfully!');
+            setTimeout(() => location.reload(), 500);
+        });
+
+        // Dropdown functionality
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const profileDropdown = document.getElementById('profileDropdown');
+
+        notificationBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('active');
+            profileDropdown?.classList.remove('active');
+        });
+
+        userMenuBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('active');
+            notificationDropdown?.classList.remove('active');
+        });
+
+        document.addEventListener('click', () => {
+            notificationDropdown?.classList.remove('active');
+            profileDropdown?.classList.remove('active');
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.menu-toggle')?.addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>

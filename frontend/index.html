@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Personal Finance and Investment Advisor - AI-powered financial guidance for everyone">
+    <title>Smart Finance Advisor | Your One Stop Financial Solution</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sections.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">💰</div>
+                <span>SmartFinance</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-secondary">Login</a>
+                <a href="register.html" class="btn btn-primary">Get Started</a>
+            </div>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    <span>AI-Powered</span> Financial Advisory
+                </div>
+                <h1>Your One <span class="emoji">💰</span><br>Stop <span class="highlight">Financial</span><br>Solution</h1>
+                <p class="hero-description">Empowering financial freedom through accessible AI advisory. Track expenses, manage investments, and get personalized insights—all in one place.</p>
+                <div class="hero-buttons">
+                    <a href="register.html" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> Get Started Free
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        <i class="fas fa-play-circle"></i> Learn More
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">1.6<span>K+</span></div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">₹2.5<span>M+</span></div>
+                        <div class="stat-label">Tracked</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">98<span>%</span></div>
+                        <div class="stat-label">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-phone">
+                    <div class="phone-screen">
+                        <div class="phone-header">
+                            <span class="phone-time">9:41</span>
+                            <div class="phone-icons">
+                                <i class="fas fa-signal"></i>
+                                <i class="fas fa-wifi"></i>
+                                <i class="fas fa-battery-full"></i>
+                            </div>
+                        </div>
+                        <div class="phone-content">
+                            <div class="phone-card">
+                                <div class="phone-card-header">
+                                    <span class="phone-card-title">Total Balance</span>
+                                    <i class="fas fa-eye" style="color: var(--text-muted); font-size: 0.75rem;"></i>
+                                </div>
+                                <div class="phone-card-value">₹1,45,750</div>
+                                <div class="phone-card-change"><i class="fas fa-arrow-up"></i> +12.5% this month</div>
+                            </div>
+                            <div class="phone-card">
+                                <div class="phone-card-title">Savings Goal</div>
+                                <div style="background: var(--bg-dark); border-radius: 8px; height: 8px; margin-top: 12px; overflow: hidden;">
+                                    <div style="background: var(--gradient-primary); height: 100%; width: 68%;"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.75rem;">
+                                    <span style="color: var(--primary);">₹68,000</span>
+                                    <span style="color: var(--text-muted);">₹1,00,000</span>
+                                </div>
+                            </div>
+                            <div class="phone-card">
+                                <div class="phone-card-title">Quick Actions</div>
+                                <div style="display: flex; gap: 12px; margin-top: 12px;">
+                                    <div style="flex: 1; background: var(--bg-dark); border-radius: 8px; padding: 12px; text-align: center;">
+                                        <i class="fas fa-plus" style="color: var(--primary);"></i>
+                                        <div style="font-size: 0.625rem; color: var(--text-muted); margin-top: 4px;">Add</div>
+                                    </div>
+                                    <div style="flex: 1; background: var(--bg-dark); border-radius: 8px; padding: 12px; text-align: center;">
+                                        <i class="fas fa-chart-pie" style="color: var(--accent-gold);"></i>
+                                        <div style="font-size: 0.625rem; color: var(--text-muted); margin-top: 4px;">Invest</div>
+                                    </div>
+                                    <div style="flex: 1; background: var(--bg-dark); border-radius: 8px; padding: 12px; text-align: center;">
+                                        <i class="fas fa-lightbulb" style="color: var(--accent-purple);"></i>
+                                        <div style="font-size: 0.625rem; color: var(--text-muted); margin-top: 4px;">Insights</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Floating Cards -->
+                <div class="floating-card floating-card-1">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 40px; height: 40px; background: rgba(16, 185, 129, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-chart-line" style="color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">Investments</div>
+                            <div style="font-size: 1rem; font-weight: 700;">+24.5%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="floating-card floating-card-2">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 40px; height: 40px; background: rgba(245, 158, 11, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-piggy-bank" style="color: var(--accent-gold);"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">Savings</div>
+                            <div style="font-size: 1rem; font-weight: 700;">₹68,000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="partners">
+        <div class="container">
+            <div class="partners-stat">
+                <div class="value">1.6k</div>
+                <div class="label">Users trust our platform</div>
+            </div>
+            <div class="partners-logos">
+                <span class="partner-logo"><i class="fas fa-university"></i> Banks</span>
+                <span class="partner-logo"><i class="fas fa-chart-bar"></i> Investments</span>
+                <span class="partner-logo"><i class="fas fa-shield-alt"></i> Secure</span>
+                <span class="partner-logo"><i class="fas fa-robot"></i> AI-Powered</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label"><i class="fas fa-star"></i> Why Choose Us</div>
+                <h2>Explore a wide array of financial products <span class="highlight">tailored to your needs</span></h2>
+                <p>Whether you're saving for a milestone or investing for growth, we've got you covered.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-wallet"></i></div>
+                    <h3>Expense & Income Tracking</h3>
+                    <p>Seamlessly log and categorize all transactions to gain a clear, real-time overview of cash flow patterns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
+                    <h3>Risk-Based Investment</h3>
+                    <p>Receive automated, tailored investment suggestions based on your risk tolerance and financial goals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                    <h3>Personalized AI Insights</h3>
+                    <p>Get proactive, data-driven insights to highlight areas for potential savings and growth.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Goal Tracking</h3>
+                    <p>Set financial goals and track your progress with visual indicators and smart recommendations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Performance Analytics</h3>
+                    <p>Detailed charts and reports showing your financial health trends over time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                    <h3>Bank-Level Security</h3>
+                    <p>Your data is encrypted and protected with enterprise-grade security measures.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="trust" id="how-it-works">
+        <div class="container">
+            <div class="trust-grid">
+                <div class="trust-content">
+                    <h2>See What you <span class="highlight">get</span><br>if you <span class="highlight">trust us</span></h2>
+                    <p>Our platform is designed to make financial management effortless and accessible for everyone.</p>
+                    <div class="trust-features">
+                        <div class="trust-feature">
+                            <div class="trust-feature-icon"><i class="fas fa-globe"></i></div>
+                            <div>
+                                <h4>Online Convenience</h4>
+                                <p>Access your finances anytime, anywhere with our web platform.</p>
+                            </div>
+                        </div>
+                        <div class="trust-feature">
+                            <div class="trust-feature-icon"><i class="fas fa-headset"></i></div>
+                            <div>
+                                <h4>Support Beyond Delivery</h4>
+                                <p>Get continuous AI-powered insights and recommendations.</p>
+                            </div>
+                        </div>
+                        <div class="trust-feature">
+                            <div class="trust-feature-icon"><i class="fas fa-percentage"></i></div>
+                            <div>
+                                <h4>Competitive Rates</h4>
+                                <p>Free to use with premium features for advanced users.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="trust-visual">
+                    <div class="glass-card" style="max-width: 400px; padding: 40px;">
+                        <div style="text-align: center;">
+                            <div style="width: 80px; height: 80px; background: var(--gradient-primary); border-radius: 50%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-check" style="font-size: 2rem;"></i>
+                            </div>
+                            <h3>A Professional look for Performance</h3>
+                            <p style="margin-top: 16px;">Clean dashboards and intuitive design for the best user experience.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Empower Section -->
+    <section class="empower" id="about">
+        <div class="container">
+            <div class="empower-grid">
+                <div class="empower-content">
+                    <h2>Empowering your <span class="highlight">Financial Journey</span> With us</h2>
+                    <p>Smart Finance Advisor is more than just a tracking app—it's a sophisticated, accessible platform built to empower better financial decisions for everyone.</p>
+                    <div class="empower-metrics">
+                        <div class="metric">
+                            <div class="value">2.5M+</div>
+                            <div class="label">Transactions Tracked</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">90%</div>
+                            <div class="label">Users Save More</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">24/7</div>
+                            <div class="label">AI Assistance</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">100%</div>
+                            <div class="label">Free to Start</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="trust-visual">
+                    <div class="glass-card" style="max-width: 400px; padding: 40px;">
+                        <div style="width: 200px; height: 200px; margin: 0 auto; border-radius: 50%; background: conic-gradient(var(--primary) 0deg 216deg, var(--accent-gold) 216deg 288deg, var(--accent-blue) 288deg 360deg); display: flex; align-items: center; justify-content: center;">
+                            <div style="width: 140px; height: 140px; background: var(--bg-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                                <span style="font-size: 2rem; font-weight: 700;">60%</span>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Savings Rate</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 24px; display: flex; justify-content: center; gap: 24px;">
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.875rem;">
+                                <div style="width: 12px; height: 12px; background: var(--primary); border-radius: 50%;"></div>
+                                <span style="color: var(--text-secondary);">Income</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.875rem;">
+                                <div style="width: 12px; height: 12px; background: var(--accent-gold); border-radius: 50%;"></div>
+                                <span style="color: var(--text-secondary);">Expenses</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.875rem;">
+                                <div style="width: 12px; height: 12px; background: var(--accent-blue); border-radius: 50%;"></div>
+                                <span style="color: var(--text-secondary);">Savings</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>See What you get<br>if you trust us</h2>
+            <p>Start your journey towards financial freedom today. Join thousands of users who are already taking control of their finances.</p>
+            <a href="register.html" class="btn"><i class="fas fa-rocket"></i> Get Started Free</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">💰</div>
+                        <span>SmartFinance</span>
+                    </a>
+                    <p>Empowering financial freedom through accessible AI advisory for everyone.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="investments.html">Investments</a></li>
+                        <li><a href="insights.html">AI Insights</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Let's Chat</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:hello@smartfinance.com"><i class="fas fa-envelope"></i> hello@smartfinance.com</a></li>
+                        <li><a href="tel:+919012345678"><i class="fas fa-phone"></i> +91 901 234 5678</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 SmartFinance. All rights reserved.</p>
+                <div>
+                    <a href="#" style="color: var(--text-muted); margin-right: 24px;">Privacy Policy</a>
+                    <a href="#" style="color: var(--text-muted);">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Insights | Smart Finance Advisor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-page">
+    <aside class="sidebar">
+        <div class="sidebar-header"><a href="index.html" class="logo">
+                <div class="logo-icon">💰</div><span>SmartFinance</span>
+            </a></div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
+            <a href="transactions.html" class="nav-item"><i
+                    class="fas fa-exchange-alt"></i><span>Transactions</span></a>
+            <a href="investments.html" class="nav-item"><i class="fas fa-chart-pie"></i><span>Investments</span></a>
+            <a href="insights.html" class="nav-item active"><i class="fas fa-lightbulb"></i><span>AI Insights</span></a>
+            <a href="goals.html" class="nav-item"><i class="fas fa-bullseye"></i><span>Goals</span></a>
+            <div class="nav-divider"></div>
+            <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+        </nav>
+        <div class="sidebar-footer"><button onclick="logout()" class="nav-item logout"><i
+                    class="fas fa-sign-out-alt"></i><span>Logout</span></button></div>
+    </aside>
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left"><button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <h2 style="margin-left: 16px;">AI Insights</h2>
+            </div>
+            <div class="topbar-right">
+                <div class="user-menu">
+                    <div class="user-avatar">JD</div><span class="user-name" id="userName">User</span>
+                </div>
+            </div>
+        </header>
+        <div class="dashboard-content">
+            <div class="page-header">
+                <div>
+                    <h1>Your Financial Insights</h1>
+                    <p>Personalized AI-powered recommendations based on your spending patterns</p>
+                </div>
+            </div>
+
+            <!-- Financial Health Score -->
+            <div class="health-score-card glass-card">
+                <div class="health-content">
+                    <h3>Financial Health Score</h3>
+                    <p>Based on your income, expenses, savings rate, and investment patterns</p>
+                </div>
+                <div class="health-score">
+                    <div class="score-circle"><canvas id="scoreChart" width="150" height="150"></canvas>
+                        <div class="score-value" id="healthScore">75</div>
+                    </div>
+                    <span class="score-label">Good</span>
+                </div>
+            </div>
+
+            <!-- Insights Grid -->
+            <div class="insights-grid">
+                <div class="insight-card spending">
+                    <div class="insight-header">
+                        <div class="insight-icon"><i class="fas fa-chart-pie"></i></div>
+                        <h3>Spending Analysis</h3>
+                    </div>
+                    <div class="insight-body">
+                        <p>Your top spending categories this month:</p>
+                        <div class="spending-breakdown" id="spendingBreakdown"></div>
+                        <div class="insight-tip"><i class="fas fa-lightbulb"></i>
+                            <p id="spendingTip">Your food expenses are 15% higher than average. Consider meal planning
+                                to save ₹2,000/month.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card savings">
+                    <div class="insight-header">
+                        <div class="insight-icon"><i class="fas fa-piggy-bank"></i></div>
+                        <h3>Savings Potential</h3>
+                    </div>
+                    <div class="insight-body">
+                        <div class="savings-meter">
+                            <div class="meter-fill" id="savingsMeter" style="width: 45%"></div>
+                        </div>
+                        <p class="savings-text">You're saving <strong id="savingsRate">45%</strong> of your income</p>
+                        <div class="insight-tip positive"><i class="fas fa-thumbs-up"></i>
+                            <p>Great job! You're above the recommended 30% savings rate.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card budget">
+                    <div class="insight-header">
+                        <div class="insight-icon"><i class="fas fa-wallet"></i></div>
+                        <h3>Budget Recommendations</h3>
+                    </div>
+                    <div class="insight-body">
+                        <div class="budget-rules">
+                            <div class="budget-rule"><span class="rule-category">Needs (50%)</span>
+                                <div class="rule-bar">
+                                    <div class="rule-fill needs" style="width: 52%"></div>
+                                </div><span class="rule-status warning">52%</span>
+                            </div>
+                            <div class="budget-rule"><span class="rule-category">Wants (30%)</span>
+                                <div class="rule-bar">
+                                    <div class="rule-fill wants" style="width: 25%"></div>
+                                </div><span class="rule-status good">25%</span>
+                            </div>
+                            <div class="budget-rule"><span class="rule-category">Savings (20%)</span>
+                                <div class="rule-bar">
+                                    <div class="rule-fill savings" style="width: 23%"></div>
+                                </div><span class="rule-status good">23%</span>
+                            </div>
+                        </div>
+                        <div class="insight-tip"><i class="fas fa-info-circle"></i>
+                            <p>Following the 50/30/20 rule can help you maintain financial balance.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card investment">
+                    <div class="insight-header">
+                        <div class="insight-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>Investment Advice</h3>
+                    </div>
+                    <div class="insight-body">
+                        <p>Based on your <strong id="riskProfile">Moderate</strong> risk profile:</p>
+                        <div class="advice-list">
+                            <div class="advice-item"><i class="fas fa-check-circle"></i><span>Continue your SIP
+                                    investments for long-term wealth</span></div>
+                            <div class="advice-item"><i class="fas fa-check-circle"></i><span>Consider diversifying into
+                                    bonds for stability</span></div>
+                            <div class="advice-item"><i class="fas fa-check-circle"></i><span>Maintain 6 months
+                                    emergency fund before aggressive investing</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Comparison -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Monthly Comparison</h3>
+                </div>
+                <div class="chart-body" style="height: 300px;"><canvas id="comparisonChart"></canvas></div>
+            </div>
+
+            <!-- AI Chat Preview -->
+            <div class="card ai-chat-preview">
+                <div class="card-header">
+                    <h3><i class="fas fa-robot"></i> Ask AI Assistant</h3>
+                </div>
+                <div class="chat-preview">
+                    <div class="chat-message bot">
+                        <div class="chat-avatar"><i class="fas fa-robot"></i></div>
+                        <p>Hello! I'm your AI financial assistant. I can help you with budgeting tips, investment
+                            advice, and answer your finance questions. What would you like to know?</p>
+                    </div>
+                </div>
+                <div class="chat-input-wrapper">
+                    <input type="text" placeholder="Ask me anything about your finances..." id="chatInput">
+                    <button class="btn btn-primary" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="js/main.js"></script>
+    <script src="js/insights.js"></script>
+</body>
+
+</html>

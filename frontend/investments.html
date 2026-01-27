@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investments | Smart Finance Advisor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-page">
+    <aside class="sidebar">
+        <div class="sidebar-header"><a href="index.html" class="logo">
+                <div class="logo-icon">💰</div><span>SmartFinance</span>
+            </a></div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
+            <a href="transactions.html" class="nav-item"><i
+                    class="fas fa-exchange-alt"></i><span>Transactions</span></a>
+            <a href="investments.html" class="nav-item active"><i
+                    class="fas fa-chart-pie"></i><span>Investments</span></a>
+            <a href="insights.html" class="nav-item"><i class="fas fa-lightbulb"></i><span>AI Insights</span></a>
+            <a href="goals.html" class="nav-item"><i class="fas fa-bullseye"></i><span>Goals</span></a>
+            <div class="nav-divider"></div>
+            <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+        </nav>
+        <div class="sidebar-footer"><button onclick="logout()" class="nav-item logout"><i
+                    class="fas fa-sign-out-alt"></i><span>Logout</span></button></div>
+    </aside>
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left"><button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <h2 style="margin-left: 16px;">Investments</h2>
+            </div>
+            <div class="topbar-right">
+                <div class="user-menu">
+                    <div class="user-avatar">JD</div><span class="user-name" id="userName">User</span>
+                </div>
+            </div>
+        </header>
+        <div class="dashboard-content">
+            <!-- Risk Assessment Banner -->
+            <div class="risk-banner glass-card" id="riskBanner">
+                <div class="risk-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="risk-content">
+                    <h3>Complete Your Risk Assessment</h3>
+                    <p>Get personalized investment recommendations based on your risk profile</p>
+                </div>
+                <button class="btn btn-primary" onclick="showRiskAssessment()">Take Assessment</button>
+            </div>
+
+            <!-- Portfolio Overview -->
+            <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="stat-card">
+                    <div class="stat-icon investment"><i class="fas fa-wallet"></i></div>
+                    <div class="stat-info"><span class="stat-label">Total Invested</span><span class="stat-value"
+                            id="totalInvested">₹0</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon savings"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-info"><span class="stat-label">Current Value</span><span class="stat-value"
+                            id="currentValue">₹0</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon income"><i class="fas fa-percentage"></i></div>
+                    <div class="stat-info"><span class="stat-label">Total Returns</span><span
+                            class="stat-value positive" id="totalReturns">+0%</span></div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-card main-chart">
+                    <div class="chart-header">
+                        <h3>Portfolio Performance</h3>
+                    </div>
+                    <div class="chart-body"><canvas id="performanceChart"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Asset Allocation</h3>
+                    </div>
+                    <div class="chart-body"><canvas id="allocationChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Investment Suggestions -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-lightbulb"></i> AI Investment Suggestions</h3>
+                </div>
+                <div class="suggestions-grid" id="suggestions">
+                    <div class="suggestion-card">
+                        <div class="suggestion-icon stocks"><i class="fas fa-chart-bar"></i></div>
+                        <div class="suggestion-info">
+                            <h4>Index Funds</h4>
+                            <p>Low risk, diversified investment in top companies</p><span
+                                class="expected-return">Expected: 12-15% annually</span>
+                        </div>
+                        <button class="btn btn-secondary">Learn More</button>
+                    </div>
+                    <div class="suggestion-card">
+                        <div class="suggestion-icon funds"><i class="fas fa-layer-group"></i></div>
+                        <div class="suggestion-info">
+                            <h4>Mutual Funds SIP</h4>
+                            <p>Regular monthly investment for long-term wealth</p><span
+                                class="expected-return">Expected: 10-14% annually</span>
+                        </div>
+                        <button class="btn btn-secondary">Learn More</button>
+                    </div>
+                    <div class="suggestion-card">
+                        <div class="suggestion-icon fd"><i class="fas fa-university"></i></div>
+                        <div class="suggestion-info">
+                            <h4>Fixed Deposits</h4>
+                            <p>Safe and guaranteed returns</p><span class="expected-return">Expected: 6-7%
+                                annually</span>
+                        </div>
+                        <button class="btn btn-secondary">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Investments -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>My Investments</h3><button class="btn btn-primary" onclick="openModal('investModal')"><i
+                            class="fas fa-plus"></i> Add Investment</button>
+                </div>
+                <div class="investments-list" id="investmentsList"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Risk Assessment Modal -->
+    <div class="modal" id="riskModal">
+        <div class="modal-overlay" onclick="closeModal('riskModal')"></div>
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Risk Assessment</h3><button class="modal-close" onclick="closeModal('riskModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="riskQuestions"></div>
+        </div>
+    </div>
+
+    <!-- Add Investment Modal -->
+    <div class="modal" id="investModal">
+        <div class="modal-overlay" onclick="closeModal('investModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Investment</h3><button class="modal-close" onclick="closeModal('investModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="investForm" class="modal-body">
+                <div class="form-group"><label>Investment Type</label><select id="investType" required>
+                        <option value="">Select type</option>
+                        <option value="mutual-fund">Mutual Fund</option>
+                        <option value="stocks">Stocks</option>
+                        <option value="fd">Fixed Deposit</option>
+                        <option value="gold">Gold</option>
+                        <option value="crypto">Cryptocurrency</option>
+                    </select></div>
+                <div class="form-group"><label>Name</label><input type="text" id="investName"
+                        placeholder="e.g., HDFC Top 100" required></div>
+                <div class="form-group"><label>Amount Invested (₹)</label><input type="number" id="investAmount"
+                        placeholder="Enter amount" required></div>
+                <div class="form-group"><label>Current Value (₹)</label><input type="number" id="investValue"
+                        placeholder="Current value"></div>
+                <div class="form-group"><label>Purchase Date</label><input type="date" id="investDate" required></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Add Investment</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/investments.js"></script>
+</body>
+
+</html>

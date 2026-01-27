@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Smart Finance Advisor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body class="dashboard-page">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">💰</div>
+                <span>SmartFinance</span>
+            </a>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
+            <a href="transactions.html" class="nav-item"><i
+                    class="fas fa-exchange-alt"></i><span>Transactions</span></a>
+            <a href="investments.html" class="nav-item"><i class="fas fa-chart-pie"></i><span>Investments</span></a>
+            <a href="insights.html" class="nav-item"><i class="fas fa-lightbulb"></i><span>AI Insights</span></a>
+            <a href="goals.html" class="nav-item"><i class="fas fa-bullseye"></i><span>Goals</span></a>
+            <div class="nav-divider"></div>
+            <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+            <a href="settings.html" class="nav-item active"><i class="fas fa-cog"></i><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button onclick="logout()" class="nav-item logout"><i
+                    class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <h2 class="page-title-topbar">Settings</h2>
+            </div>
+            <div class="topbar-right">
+                <div class="notification-wrapper">
+                    <button class="notification-btn" id="notificationBtn"><i class="fas fa-bell"></i><span class="badge"
+                            id="notificationBadge">3</span></button>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <button class="mark-all-read" id="markAllRead">Mark all as read</button>
+                        </div>
+                        <div class="notification-list" id="notificationList">
+                            <div class="notification-item unread">
+                                <div class="notification-icon alert"><i class="fas fa-exclamation-circle"></i></div>
+                                <div class="notification-content">
+                                    <p>Your food expenses exceeded ₹5,000 this week</p>
+                                    <span class="notification-time">2 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all-notifications">View All Notifications</a>
+                    </div>
+                </div>
+                <div class="user-menu-wrapper">
+                    <div class="user-menu" id="userMenuBtn">
+                        <div class="user-avatar" id="userAvatar">JD</div>
+                        <span class="user-name" id="userName">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="dropdown-user-info">
+                            <div class="dropdown-avatar" id="dropdownAvatar">JD</div>
+                            <div class="dropdown-user-details">
+                                <span class="dropdown-user-name" id="dropdownUserName">User</span>
+                                <span class="dropdown-user-email" id="dropdownUserEmail">user@email.com</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i>My Profile</a>
+                        <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i>Settings</a>
+                        <a href="goals.html" class="dropdown-item"><i class="fas fa-bullseye"></i>Goals</a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-item" onclick="logout()"><i
+                                class="fas fa-sign-out-alt"></i>Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Settings Content -->
+        <div class="dashboard-content">
+            <div class="settings-container">
+                <!-- General Settings -->
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-sliders-h"></i> General Settings</h3>
+                    </div>
+                    <div class="settings-list">
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <span class="settings-label">Currency</span>
+                                <span class="settings-desc">Select your preferred currency</span>
+                            </div>
+                            <select class="settings-select" id="currencySelect">
+                                <option value="INR" selected>₹ INR (Indian Rupee)</option>
+                                <option value="USD">$ USD (US Dollar)</option>
+                                <option value="EUR">€ EUR (Euro)</option>
+                                <option value="GBP">£ GBP (British Pound)</option>
+                            </select>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <span class="settings-label">Language</span>
+                                <span class="settings-desc">Choose your preferred language</span>
+                            </div>
+                            <select class="settings-select" id="languageSelect">
+                                <option value="en" selected>English</option>
+                                <option value="hi">हिन्दी (Hindi)</option>
+                            </select>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <span class="settings-label">Date Format</span>
+                                <span class="settings-desc">How dates should be displayed</span>
+                            </div>
+                            <select class="settings-select" id="dateFormatSelect">
+                                <option value="DD/MM/YYYY" selected>DD/MM/YYYY</option>
+                                <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bell"></i> Notification Settings</h3>
+                    </div>
+                    <div class="settings-list">
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <span class="settings-label">Email Notifications</span>
+                                <span class="settings-desc">Receive updates via email</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="emailNotif" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <span class="settings-label">Budget Alerts</span>
+                                <span class="settings-desc">Get notified when you exceed budget</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="budgetAlerts" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <span class="settings-label">Weekly Summary</span>
+                                <span class="settings-desc">Receive weekly financial report</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="weeklySummary" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <span class="settings-label">AI Insights</span>
+                                <span class="settings-desc">Personalized AI recommendations</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="aiInsights" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy Settings -->
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-shield-alt"></i> Privacy & Security</h3>
+                    </div>
+                    <div class="settings-list">
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <span class="settings-label">Two-Factor Authentication</span>
+                                <span class="settings-desc">Add an extra layer of security</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="twoFactor">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <span class="settings-label">Data Sharing</span>
+                                <span class="settings-desc">Allow anonymous data for AI improvement</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="dataSharing">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="card settings-card danger-zone">
+                    <div class="card-header">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                    </div>
+                    <div class="settings-list">
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <span class="settings-label">Clear All Data</span>
+                                <span class="settings-desc">Delete all transactions and settings</span>
+                            </div>
+                            <button class="btn btn-danger" onclick="clearAllData()">Clear Data</button>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <span class="settings-label">Delete Account</span>
+                                <span class="settings-desc">Permanently delete your account</span>
+                            </div>
+                            <button class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary save-settings-btn" onclick="saveSettings()">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Check authentication
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'login.html';
+        }
+
+        // Load user info
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const initials = (user.name || 'U').substring(0, 2).toUpperCase();
+
+        document.getElementById('userName').textContent = user.name || 'User';
+        document.getElementById('userAvatar').textContent = initials;
+        document.getElementById('dropdownAvatar').textContent = initials;
+        document.getElementById('dropdownUserName').textContent = user.name || 'User';
+        document.getElementById('dropdownUserEmail').textContent = user.email || 'user@email.com';
+
+        // Load saved settings
+        const settings = JSON.parse(localStorage.getItem('settings') || '{}');
+        if (settings.currency) document.getElementById('currencySelect').value = settings.currency;
+        if (settings.language) document.getElementById('languageSelect').value = settings.language;
+        if (settings.dateFormat) document.getElementById('dateFormatSelect').value = settings.dateFormat;
+
+        // Save settings
+        function saveSettings() {
+            const newSettings = {
+                currency: document.getElementById('currencySelect').value,
+                language: document.getElementById('languageSelect').value,
+                dateFormat: document.getElementById('dateFormatSelect').value,
+                emailNotif: document.getElementById('emailNotif').checked,
+                budgetAlerts: document.getElementById('budgetAlerts').checked,
+                weeklySummary: document.getElementById('weeklySummary').checked,
+                aiInsights: document.getElementById('aiInsights').checked,
+                twoFactor: document.getElementById('twoFactor').checked,
+                dataSharing: document.getElementById('dataSharing').checked
+            };
+            localStorage.setItem('settings', JSON.stringify(newSettings));
+            showNotification('Settings saved successfully!');
+        }
+
+        // Clear all data
+        function clearAllData() {
+            if (confirm('Are you sure? This will delete all your transactions and cannot be undone.')) {
+                localStorage.removeItem('transactions');
+                showNotification('All data has been cleared');
+            }
+        }
+
+        // Delete account
+        function deleteAccount() {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                localStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Dropdown functionality
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const profileDropdown = document.getElementById('profileDropdown');
+
+        notificationBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('active');
+            profileDropdown?.classList.remove('active');
+        });
+
+        userMenuBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('active');
+            notificationDropdown?.classList.remove('active');
+        });
+
+        document.addEventListener('click', () => {
+            notificationDropdown?.classList.remove('active');
+            profileDropdown?.classList.remove('active');
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.menu-toggle')?.addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>

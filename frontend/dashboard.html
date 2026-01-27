@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Smart Finance Advisor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-page">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">💰</div>
+                <span>SmartFinance</span>
+            </a>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item active"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
+            <a href="transactions.html" class="nav-item"><i
+                    class="fas fa-exchange-alt"></i><span>Transactions</span></a>
+            <a href="investments.html" class="nav-item"><i class="fas fa-chart-pie"></i><span>Investments</span></a>
+            <a href="insights.html" class="nav-item"><i class="fas fa-lightbulb"></i><span>AI Insights</span></a>
+            <a href="goals.html" class="nav-item"><i class="fas fa-bullseye"></i><span>Goals</span></a>
+            <div class="nav-divider"></div>
+            <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+            <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button onclick="logout()" class="nav-item logout"><i
+                    class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search transactions...">
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="notification-wrapper">
+                    <button class="notification-btn" id="notificationBtn"><i class="fas fa-bell"></i><span class="badge"
+                            id="notificationBadge">3</span></button>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <button class="mark-all-read" id="markAllRead">Mark all as read</button>
+                        </div>
+                        <div class="notification-list" id="notificationList">
+                            <div class="notification-item unread">
+                                <div class="notification-icon alert"><i class="fas fa-exclamation-circle"></i></div>
+                                <div class="notification-content">
+                                    <p>Your food expenses exceeded ₹5,000 this week</p>
+                                    <span class="notification-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notification-icon success"><i class="fas fa-check-circle"></i></div>
+                                <div class="notification-content">
+                                    <p>Salary credited: ₹75,000</p>
+                                    <span class="notification-time">Yesterday</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notification-icon info"><i class="fas fa-lightbulb"></i></div>
+                                <div class="notification-content">
+                                    <p>New AI insight available for your investments</p>
+                                    <span class="notification-time">2 days ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all-notifications">View All Notifications</a>
+                    </div>
+                </div>
+                <div class="user-menu-wrapper">
+                    <div class="user-menu" id="userMenuBtn">
+                        <div class="user-avatar" id="userAvatar">JD</div>
+                        <span class="user-name" id="userName">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="dropdown-user-info">
+                            <div class="dropdown-avatar" id="dropdownAvatar">JD</div>
+                            <div class="dropdown-user-details">
+                                <span class="dropdown-user-name" id="dropdownUserName">User</span>
+                                <span class="dropdown-user-email" id="dropdownUserEmail">user@email.com</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i>My Profile</a>
+                        <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i>Settings</a>
+                        <a href="goals.html" class="dropdown-item"><i class="fas fa-bullseye"></i>Goals</a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-item" onclick="logout()"><i
+                                class="fas fa-sign-out-alt"></i>Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <div class="page-header">
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Welcome back! Here's your financial overview.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="openModal('transactionModal')"><i
+                            class="fas fa-plus"></i> Add Transaction</button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon income"><i class="fas fa-arrow-down"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Income</span>
+                        <span class="stat-value" id="totalIncome">₹0</span>
+                        <span class="stat-change positive"><i class="fas fa-arrow-up"></i> 8.5% vs last month</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon expense"><i class="fas fa-arrow-up"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Expenses</span>
+                        <span class="stat-value" id="totalExpenses">₹0</span>
+                        <span class="stat-change negative"><i class="fas fa-arrow-up"></i> 4.3% vs last month</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon savings"><i class="fas fa-piggy-bank"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Net Savings</span>
+                        <span class="stat-value" id="netSavings">₹0</span>
+                        <span class="stat-change positive"><i class="fas fa-arrow-up"></i> 12.5% vs last month</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon investment"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Investments</span>
+                        <span class="stat-value" id="totalInvestments">₹0</span>
+                        <span class="stat-change positive"><i class="fas fa-arrow-up"></i> 24.5% returns</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-grid">
+                <div class="chart-card main-chart">
+                    <div class="chart-header">
+                        <h3>Income vs Expenses</h3>
+                        <div class="chart-filters">
+                            <button class="filter-btn active">Week</button>
+                            <button class="filter-btn">Month</button>
+                            <button class="filter-btn">Year</button>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="mainChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Expense Categories</h3>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    <div class="chart-legend" id="categoryLegend"></div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions & Quick Actions -->
+            <div class="bottom-grid">
+                <div class="card transactions-card">
+                    <div class="card-header">
+                        <h3>Recent Transactions</h3>
+                        <a href="transactions.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="transactions-list" id="recentTransactions">
+                        <div class="transaction-item">
+                            <div class="transaction-icon food"><i class="fas fa-utensils"></i></div>
+                            <div class="transaction-info">
+                                <span class="transaction-title">Food & Dining</span>
+                                <span class="transaction-date">Today, 2:30 PM</span>
+                            </div>
+                            <span class="transaction-amount expense">-₹450</span>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-icon salary"><i class="fas fa-briefcase"></i></div>
+                            <div class="transaction-info">
+                                <span class="transaction-title">Salary Credit</span>
+                                <span class="transaction-date">Jan 1, 2026</span>
+                            </div>
+                            <span class="transaction-amount income">+₹75,000</span>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-icon shopping"><i class="fas fa-shopping-bag"></i></div>
+                            <div class="transaction-info">
+                                <span class="transaction-title">Online Shopping</span>
+                                <span class="transaction-date">Dec 28, 2025</span>
+                            </div>
+                            <span class="transaction-amount expense">-₹2,499</span>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-icon transport"><i class="fas fa-car"></i></div>
+                            <div class="transaction-info">
+                                <span class="transaction-title">Uber Ride</span>
+                                <span class="transaction-date">Dec 27, 2025</span>
+                            </div>
+                            <span class="transaction-amount expense">-₹180</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card ai-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-robot"></i> AI Insights</h3>
+                    </div>
+                    <div class="ai-insights">
+                        <div class="insight-item">
+                            <div class="insight-icon"><i class="fas fa-lightbulb"></i></div>
+                            <p>Your food expenses are 15% higher than last month. Consider meal planning to save
+                                ₹2,000/month.</p>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon"><i class="fas fa-piggy-bank"></i></div>
+                            <p>You're on track to reach your savings goal! Keep it up.</p>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon"><i class="fas fa-chart-line"></i></div>
+                            <p>Based on your risk profile, consider investing in mutual funds for long-term growth.</p>
+                        </div>
+                    </div>
+                    <a href="insights.html" class="btn btn-primary" style="width: 100%; margin-top: 16px;">Get Detailed
+                        Insights</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Transaction Modal -->
+    <div class="modal" id="transactionModal">
+        <div class="modal-overlay" onclick="closeModal('transactionModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Transaction</h3>
+                <button class="modal-close" onclick="closeModal('transactionModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="transactionForm" class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <div class="toggle-group">
+                            <button type="button" class="toggle-btn active" data-value="expense">Expense</button>
+                            <button type="button" class="toggle-btn" data-value="income">Income</button>
+                        </div>
+                        <input type="hidden" id="transactionType" value="expense">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount (₹)</label>
+                    <input type="number" id="amount" placeholder="Enter amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                        <option value="">Select category</option>
+                        <option value="food">Food & Dining</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="transport">Transport</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="bills">Bills & Utilities</option>
+                        <option value="health">Health</option>
+                        <option value="salary">Salary</option>
+                        <option value="investment">Investment</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" placeholder="Enter description">
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Add Transaction</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

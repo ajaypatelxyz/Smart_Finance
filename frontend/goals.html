@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goals | Smart Finance Advisor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body class="dashboard-page">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">💰</div>
+                <span>SmartFinance</span>
+            </a>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
+            <a href="transactions.html" class="nav-item"><i
+                    class="fas fa-exchange-alt"></i><span>Transactions</span></a>
+            <a href="investments.html" class="nav-item"><i class="fas fa-chart-pie"></i><span>Investments</span></a>
+            <a href="insights.html" class="nav-item"><i class="fas fa-lightbulb"></i><span>AI Insights</span></a>
+            <a href="goals.html" class="nav-item active"><i class="fas fa-bullseye"></i><span>Goals</span></a>
+            <div class="nav-divider"></div>
+            <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+            <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button onclick="logout()" class="nav-item logout"><i
+                    class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <h2 class="page-title-topbar">My Goals</h2>
+            </div>
+            <div class="topbar-right">
+                <div class="notification-wrapper">
+                    <button class="notification-btn" id="notificationBtn"><i class="fas fa-bell"></i><span class="badge"
+                            id="notificationBadge">3</span></button>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <button class="mark-all-read" id="markAllRead">Mark all as read</button>
+                        </div>
+                        <div class="notification-list" id="notificationList">
+                            <div class="notification-item unread">
+                                <div class="notification-icon success"><i class="fas fa-check-circle"></i></div>
+                                <div class="notification-content">
+                                    <p>You're 80% towards your vacation goal!</p>
+                                    <span class="notification-time">1 hour ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all-notifications">View All Notifications</a>
+                    </div>
+                </div>
+                <div class="user-menu-wrapper">
+                    <div class="user-menu" id="userMenuBtn">
+                        <div class="user-avatar" id="userAvatar">JD</div>
+                        <span class="user-name" id="userName">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="dropdown-user-info">
+                            <div class="dropdown-avatar" id="dropdownAvatar">JD</div>
+                            <div class="dropdown-user-details">
+                                <span class="dropdown-user-name" id="dropdownUserName">User</span>
+                                <span class="dropdown-user-email" id="dropdownUserEmail">user@email.com</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i>My Profile</a>
+                        <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i>Settings</a>
+                        <a href="goals.html" class="dropdown-item"><i class="fas fa-bullseye"></i>Goals</a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-item" onclick="logout()"><i
+                                class="fas fa-sign-out-alt"></i>Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Goals Content -->
+        <div class="dashboard-content">
+            <div class="page-header">
+                <div>
+                    <h1>Financial Goals</h1>
+                    <p>Track your progress towards financial milestones</p>
+                </div>
+                <button class="btn btn-primary" onclick="openModal('addGoalModal')">
+                    <i class="fas fa-plus"></i> Add New Goal
+                </button>
+            </div>
+
+            <!-- Goals Summary -->
+            <div class="stats-grid goals-summary">
+                <div class="stat-card">
+                    <div class="stat-icon income"><i class="fas fa-bullseye"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Active Goals</span>
+                        <span class="stat-value" id="activeGoals">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon savings"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Completed</span>
+                        <span class="stat-value" id="completedGoals">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon investment"><i class="fas fa-rupee-sign"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Saved</span>
+                        <span class="stat-value" id="totalSaved">₹0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goals List -->
+            <div class="goals-grid" id="goalsGrid">
+                <!-- Goals will be rendered here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon"><i class="fas fa-bullseye"></i></div>
+                <h3>No Goals Yet</h3>
+                <p>Start by adding your first financial goal!</p>
+                <button class="btn btn-primary" onclick="openModal('addGoalModal')">
+                    <i class="fas fa-plus"></i> Add Your First Goal
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Goal Modal -->
+    <div class="modal" id="addGoalModal">
+        <div class="modal-overlay" onclick="closeModal('addGoalModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Goal</h3>
+                <button class="modal-close" onclick="closeModal('addGoalModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="addGoalForm" class="modal-body">
+                <div class="form-group">
+                    <label for="goalName">Goal Name</label>
+                    <input type="text" id="goalName" placeholder="e.g., Vacation Fund, Emergency Fund" required>
+                </div>
+                <div class="form-group">
+                    <label for="goalTarget">Target Amount (₹)</label>
+                    <input type="number" id="goalTarget" placeholder="Enter target amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="goalCurrent">Current Savings (₹)</label>
+                    <input type="number" id="goalCurrent" placeholder="Enter current amount" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="goalDeadline">Target Date</label>
+                    <input type="date" id="goalDeadline" required>
+                </div>
+                <div class="form-group">
+                    <label for="goalIcon">Icon</label>
+                    <select id="goalIcon">
+                        <option value="plane">✈️ Vacation</option>
+                        <option value="home">🏠 Home</option>
+                        <option value="car">🚗 Car</option>
+                        <option value="graduation">🎓 Education</option>
+                        <option value="ring">💍 Wedding</option>
+                        <option value="shield">🛡️ Emergency Fund</option>
+                        <option value="piggy">🐷 General Savings</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Goal</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Check authentication
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'login.html';
+        }
+
+        // Load user info
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const initials = (user.name || 'U').substring(0, 2).toUpperCase();
+
+        document.getElementById('userName').textContent = user.name || 'User';
+        document.getElementById('userAvatar').textContent = initials;
+        document.getElementById('dropdownAvatar').textContent = initials;
+        document.getElementById('dropdownUserName').textContent = user.name || 'User';
+        document.getElementById('dropdownUserEmail').textContent = user.email || 'user@email.com';
+
+        // Goals data
+        let goals = JSON.parse(localStorage.getItem('goals') || '[]');
+
+        // Sample goals if empty
+        if (goals.length === 0) {
+            goals = [
+                { id: 1, name: 'Vacation Fund', target: 100000, current: 68000, deadline: '2026-06-01', icon: 'plane' },
+                { id: 2, name: 'Emergency Fund', target: 300000, current: 150000, deadline: '2026-12-31', icon: 'shield' },
+                { id: 3, name: 'New Laptop', target: 80000, current: 45000, deadline: '2026-03-15', icon: 'piggy' }
+            ];
+            localStorage.setItem('goals', JSON.stringify(goals));
+        }
+
+        const icons = {
+            plane: '✈️', home: '🏠', car: '🚗', graduation: '🎓', ring: '💍', shield: '🛡️', piggy: '🐷'
+        };
+
+        // Render goals
+        function renderGoals() {
+            const container = document.getElementById('goalsGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (goals.length === 0) {
+                container.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            container.style.display = 'grid';
+            emptyState.style.display = 'none';
+
+            container.innerHTML = goals.map(goal => {
+                const progress = Math.min((goal.current / goal.target) * 100, 100);
+                const isComplete = progress >= 100;
+                return `
+                    <div class="goal-card ${isComplete ? 'completed' : ''}">
+                        <div class="goal-header">
+                            <div class="goal-icon">${icons[goal.icon] || '🎯'}</div>
+                            <div class="goal-actions">
+                                <button class="goal-action-btn" onclick="deleteGoal(${goal.id})"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <h3 class="goal-name">${goal.name}</h3>
+                        <div class="goal-progress-bar">
+                            <div class="goal-progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                        <div class="goal-amounts">
+                            <span class="goal-current">${formatCurrency(goal.current)}</span>
+                            <span class="goal-target">of ${formatCurrency(goal.target)}</span>
+                        </div>
+                        <div class="goal-deadline">
+                            <i class="fas fa-calendar"></i>
+                            ${new Date(goal.deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </div>
+                        ${isComplete ? '<div class="goal-completed-badge"><i class="fas fa-check"></i> Completed!</div>' : ''}
+                    </div>
+                `;
+            }).join('');
+
+            // Update summary
+            const activeGoals = goals.filter(g => (g.current / g.target) < 1).length;
+            const completedGoals = goals.filter(g => (g.current / g.target) >= 1).length;
+            const totalSaved = goals.reduce((sum, g) => sum + g.current, 0);
+
+            document.getElementById('activeGoals').textContent = activeGoals;
+            document.getElementById('completedGoals').textContent = completedGoals;
+            document.getElementById('totalSaved').textContent = formatCurrency(totalSaved);
+        }
+
+        // Delete goal
+        function deleteGoal(id) {
+            if (confirm('Are you sure you want to delete this goal?')) {
+                goals = goals.filter(g => g.id !== id);
+                localStorage.setItem('goals', JSON.stringify(goals));
+                renderGoals();
+                showNotification('Goal deleted');
+            }
+        }
+
+        // Add goal form
+        document.getElementById('addGoalForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newGoal = {
+                id: Date.now(),
+                name: document.getElementById('goalName').value,
+                target: parseFloat(document.getElementById('goalTarget').value),
+                current: parseFloat(document.getElementById('goalCurrent').value) || 0,
+                deadline: document.getElementById('goalDeadline').value,
+                icon: document.getElementById('goalIcon').value
+            };
+            goals.push(newGoal);
+            localStorage.setItem('goals', JSON.stringify(goals));
+            closeModal('addGoalModal');
+            e.target.reset();
+            renderGoals();
+            showNotification('Goal created successfully!');
+        });
+
+        // Modal functions
+        window.openModal = function (id) { document.getElementById(id).classList.add('active'); };
+        window.closeModal = function (id) { document.getElementById(id).classList.remove('active'); };
+
+        // Set minimum date for deadline
+        document.getElementById('goalDeadline').min = new Date().toISOString().split('T')[0];
+
+        // Dropdown functionality
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const profileDropdown = document.getElementById('profileDropdown');
+
+        notificationBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('active');
+            profileDropdown?.classList.remove('active');
+        });
+
+        userMenuBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('active');
+            notificationDropdown?.classList.remove('active');
+        });
+
+        document.addEventListener('click', () => {
+            notificationDropdown?.classList.remove('active');
+            profileDropdown?.classList.remove('active');
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.menu-toggle')?.addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        // Initialize
+        renderGoals();
+    </script>
+</body>
+
+</html>
