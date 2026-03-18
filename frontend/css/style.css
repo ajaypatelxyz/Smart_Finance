@@ -226,7 +226,7 @@ img {
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .mobile-auth-only {
         display: block;
         margin-top: 12px;
