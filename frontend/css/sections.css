@@ -455,6 +455,10 @@
     .navbar .nav-links {
         display: none;
     }
+    
+    .desktop-auth-only {
+        display: none !important;
+    }
 
     .mobile-menu-btn {
         display: block;

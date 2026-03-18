@@ -77,7 +77,23 @@ document.getElementById('transactionForm').addEventListener('submit', e => {
 });
 
 document.getElementById('date').valueAsDate = new Date();
-document.querySelector('.menu-toggle')?.addEventListener('click', () => document.querySelector('.sidebar').classList.toggle('active'));
+document.querySelector('.menu-toggle')?.addEventListener('click', () => {
+    document.querySelector('.sidebar').classList.toggle('active');
+    
+    // Create or toggle overlay
+    let overlay = document.querySelector('.sidebar-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        document.body.appendChild(overlay);
+        
+        overlay.addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    }
+    overlay.classList.toggle('active');
+});
 
 // Additional CSS for table
 const style = document.createElement('style');

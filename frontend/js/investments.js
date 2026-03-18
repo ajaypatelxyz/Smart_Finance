@@ -103,7 +103,23 @@ document.getElementById('investForm').addEventListener('submit', e => {
 
 window.openModal = id => document.getElementById(id).classList.add('active');
 window.closeModal = id => document.getElementById(id).classList.remove('active');
-document.querySelector('.menu-toggle')?.addEventListener('click', () => document.querySelector('.sidebar').classList.toggle('active'));
+document.querySelector('.menu-toggle')?.addEventListener('click', () => {
+    document.querySelector('.sidebar').classList.toggle('active');
+    
+    // Create or toggle overlay
+    let overlay = document.querySelector('.sidebar-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        document.body.appendChild(overlay);
+        
+        overlay.addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    }
+    overlay.classList.toggle('active');
+});
 
 // Styles
 const style = document.createElement('style');

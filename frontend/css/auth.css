@@ -64,6 +64,7 @@
     position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .input-wrapper i {
@@ -116,7 +117,7 @@
 
 .checkbox-wrapper {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
     cursor: pointer;
     font-size: 0.875rem;
@@ -135,6 +136,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
     transition: var(--transition-fast);
 }
 
