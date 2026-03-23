@@ -619,6 +619,7 @@ img {
 .page-title-topbar {
     font-size: 1.25rem;
     font-weight: 600;
+    margin: 0;
 }
 
 /* ====================================
@@ -945,11 +946,98 @@ select option:checked,
     grid-template-columns: repeat(3, 1fr);
 }
 
+/* Update Savings Button */
+.btn-update-savings {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-update-savings:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.goal-action-btn.update-btn:hover {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--primary);
+}
+
+.goal-action-btn.delete-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+.goal-progress-pct {
+    font-size: 0.75rem;
+    color: var(--primary);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Update Goal Modal Preview */
+.update-goal-preview {
+    padding: 20px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+}
+
+.update-goal-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.update-goal-icon {
+    font-size: 1.5rem;
+}
+
+.update-goal-amounts {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 0.875rem;
+}
+
+.update-goal-remaining {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--accent-gold);
+    font-weight: 500;
+}
+
 /* Responsive for new pages */
 @media (max-width: 768px) {
     .profile-header-card {
         flex-direction: column;
         text-align: center;
+        padding: 24px 16px;
+        gap: 16px;
+    }
+
+    .profile-avatar-large {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
     }
 
     .edit-profile-btn {
@@ -973,5 +1061,50 @@ select option:checked,
 
     .settings-select {
         width: 100%;
+    }
+
+    .goals-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .goal-card {
+        padding: 20px;
+    }
+
+    .goal-card:hover {
+        transform: none;
+    }
+
+    .goal-icon {
+        font-size: 2rem;
+    }
+
+    .goal-name {
+        font-size: 1rem;
+    }
+
+    .goal-amounts {
+        font-size: 0.875rem;
+    }
+
+    .update-goal-preview {
+        padding: 16px;
+    }
+
+    .update-goal-name {
+        font-size: 1rem;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 12px;
+    }
+
+    .page-header .btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
     }
 }

@@ -1,4 +1,6 @@
 // Investments page JavaScript
+(function() {
+'use strict';
 if (!localStorage.getItem('token')) window.location.href = 'login.html';
 
 const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -34,7 +36,6 @@ function updatePortfolio() {
 
 // Charts
 function initCharts() {
-    // Performance Chart
     new Chart(document.getElementById('performanceChart'), {
         type: 'line',
         data: {
@@ -44,7 +45,6 @@ function initCharts() {
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#71717a' } }, y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#71717a', callback: v => '₹' + v / 1000 + 'k' } } } }
     });
 
-    // Allocation Chart
     const types = {};
     investments.forEach(i => { types[i.type] = (types[i.type] || 0) + i.currentValue; });
     new Chart(document.getElementById('allocationChart'), {
@@ -103,16 +103,15 @@ document.getElementById('investForm').addEventListener('submit', e => {
 
 window.openModal = id => document.getElementById(id).classList.add('active');
 window.closeModal = id => document.getElementById(id).classList.remove('active');
+
+// Mobile menu toggle
 document.querySelector('.menu-toggle')?.addEventListener('click', () => {
     document.querySelector('.sidebar').classList.toggle('active');
-    
-    // Create or toggle overlay
     let overlay = document.querySelector('.sidebar-overlay');
     if (!overlay) {
         overlay = document.createElement('div');
         overlay.className = 'sidebar-overlay';
         document.body.appendChild(overlay);
-        
         overlay.addEventListener('click', () => {
             document.querySelector('.sidebar').classList.remove('active');
             overlay.classList.remove('active');
@@ -120,6 +119,58 @@ document.querySelector('.menu-toggle')?.addEventListener('click', () => {
     }
     overlay.classList.toggle('active');
 });
+
+// Notification and Profile Dropdown
+const notificationBtn = document.getElementById('notificationBtn');
+const notificationDropdown = document.getElementById('notificationDropdown');
+const userMenuBtn = document.getElementById('userMenuBtn');
+const profileDropdown = document.getElementById('profileDropdown');
+const markAllReadBtn = document.getElementById('markAllRead');
+
+notificationBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    notificationDropdown.classList.toggle('active');
+    profileDropdown?.classList.remove('active');
+});
+
+userMenuBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    profileDropdown.classList.toggle('active');
+    notificationDropdown?.classList.remove('active');
+});
+
+document.addEventListener('click', (e) => {
+    if (!notificationDropdown?.contains(e.target) && !notificationBtn?.contains(e.target)) {
+        notificationDropdown?.classList.remove('active');
+    }
+    if (!profileDropdown?.contains(e.target) && !userMenuBtn?.contains(e.target)) {
+        profileDropdown?.classList.remove('active');
+    }
+});
+
+markAllReadBtn?.addEventListener('click', () => {
+    document.querySelectorAll('.notification-item.unread').forEach(item => item.classList.remove('unread'));
+    const badge = document.getElementById('notificationBadge');
+    if (badge) badge.style.display = 'none';
+    showNotification('All notifications marked as read');
+});
+
+// Update user info
+function updateUserInfo() {
+    const u = JSON.parse(localStorage.getItem('user') || '{}');
+    const initials = (u.name || 'U').substring(0, 2).toUpperCase();
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    if (userAvatar) userAvatar.textContent = initials;
+    if (userName) userName.textContent = u.name || 'User';
+    const dropdownAvatar = document.getElementById('dropdownAvatar');
+    const dropdownUserName = document.getElementById('dropdownUserName');
+    const dropdownUserEmail = document.getElementById('dropdownUserEmail');
+    if (dropdownAvatar) dropdownAvatar.textContent = initials;
+    if (dropdownUserName) dropdownUserName.textContent = u.name || 'User';
+    if (dropdownUserEmail) dropdownUserEmail.textContent = u.email || 'user@email.com';
+}
+updateUserInfo();
 
 // Styles
 const style = document.createElement('style');
@@ -129,7 +180,7 @@ style.textContent = `
 .risk-content { flex: 1; }
 .risk-content h3 { margin-bottom: 4px; }
 .risk-content p { color: var(--text-secondary); }
-.suggestions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.suggestions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
 .suggestion-card { display: flex; align-items: center; gap: 16px; padding: 20px; background: var(--bg-glass); border-radius: var(--radius-lg); border: 1px solid var(--border-color); }
 .suggestion-icon { width: 50px; height: 50px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
 .suggestion-icon.stocks { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
@@ -159,9 +210,15 @@ style.textContent = `
 .option { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--bg-glass); border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-fast); }
 .option:hover { background: var(--bg-glass-hover); }
 .option input:checked + span { color: var(--primary); }
+@media (max-width: 600px) {
+    .investment-item { flex-direction: column; text-align: center; gap: 12px; }
+    .investment-amounts { text-align: center; }
+    .suggestion-card { flex-direction: column; text-align: center; }
+}
 `;
 document.head.appendChild(style);
 
 updatePortfolio();
 initCharts();
 renderInvestments();
+})();

@@ -48,56 +48,6 @@
                 <h2 class="page-title-topbar">My Profile</h2>
             </div>
             <div class="topbar-right">
-                <div class="notification-wrapper">
-                    <button class="notification-btn" id="notificationBtn"><i class="fas fa-bell"></i><span class="badge"
-                            id="notificationBadge">3</span></button>
-                    <div class="notification-dropdown" id="notificationDropdown">
-                        <div class="dropdown-header">
-                            <h4>Notifications</h4>
-                            <button class="mark-all-read" id="markAllRead">Mark all as read</button>
-                        </div>
-                        <div class="notification-list" id="notificationList">
-                            <div class="notification-item unread">
-                                <div class="notification-icon alert"><i class="fas fa-exclamation-circle"></i></div>
-                                <div class="notification-content">
-                                    <p>Your food expenses exceeded ₹5,000 this week</p>
-                                    <span class="notification-time">2 hours ago</span>
-                                </div>
-                            </div>
-                            <div class="notification-item unread">
-                                <div class="notification-icon success"><i class="fas fa-check-circle"></i></div>
-                                <div class="notification-content">
-                                    <p>Salary credited: ₹75,000</p>
-                                    <span class="notification-time">Yesterday</span>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#" class="view-all-notifications">View All Notifications</a>
-                    </div>
-                </div>
-                <div class="user-menu-wrapper">
-                    <div class="user-menu" id="userMenuBtn">
-                        <div class="user-avatar" id="userAvatar">JD</div>
-                        <span class="user-name" id="userName">User</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="profile-dropdown" id="profileDropdown">
-                        <div class="dropdown-user-info">
-                            <div class="dropdown-avatar" id="dropdownAvatar">JD</div>
-                            <div class="dropdown-user-details">
-                                <span class="dropdown-user-name" id="dropdownUserName">User</span>
-                                <span class="dropdown-user-email" id="dropdownUserEmail">user@email.com</span>
-                            </div>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i>My Profile</a>
-                        <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i>Settings</a>
-                        <a href="goals.html" class="dropdown-item"><i class="fas fa-bullseye"></i>Goals</a>
-                        <div class="dropdown-divider"></div>
-                        <button class="dropdown-item logout-item" onclick="logout()"><i
-                                class="fas fa-sign-out-alt"></i>Logout</button>
-                    </div>
-                </div>
             </div>
         </header>
 
@@ -233,16 +183,11 @@
         const initials = (user.name || 'U').substring(0, 2).toUpperCase();
 
         // Update all user displays
-        document.getElementById('userName').textContent = user.name || 'User';
-        document.getElementById('userAvatar').textContent = initials;
         document.getElementById('profileAvatarLarge').textContent = initials;
         document.getElementById('profileName').textContent = user.name || 'User';
         document.getElementById('profileEmail').textContent = user.email || 'user@email.com';
         document.getElementById('infoName').textContent = user.name || 'User';
         document.getElementById('infoEmail').textContent = user.email || 'user@email.com';
-        document.getElementById('dropdownAvatar').textContent = initials;
-        document.getElementById('dropdownUserName').textContent = user.name || 'User';
-        document.getElementById('dropdownUserEmail').textContent = user.email || 'user@email.com';
 
         // Get transaction count
         const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
@@ -272,32 +217,23 @@
             setTimeout(() => location.reload(), 500);
         });
 
-        // Dropdown functionality
-        const notificationBtn = document.getElementById('notificationBtn');
-        const notificationDropdown = document.getElementById('notificationDropdown');
-        const userMenuBtn = document.getElementById('userMenuBtn');
-        const profileDropdown = document.getElementById('profileDropdown');
-
-        notificationBtn?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            notificationDropdown.classList.toggle('active');
-            profileDropdown?.classList.remove('active');
-        });
-
-        userMenuBtn?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            profileDropdown.classList.toggle('active');
-            notificationDropdown?.classList.remove('active');
-        });
-
-        document.addEventListener('click', () => {
-            notificationDropdown?.classList.remove('active');
-            profileDropdown?.classList.remove('active');
-        });
-
         // Mobile menu toggle
         document.querySelector('.menu-toggle')?.addEventListener('click', () => {
             document.querySelector('.sidebar').classList.toggle('active');
+            
+            // Create or toggle overlay
+            let overlay = document.querySelector('.sidebar-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'sidebar-overlay';
+                document.body.appendChild(overlay);
+                
+                overlay.addEventListener('click', () => {
+                    document.querySelector('.sidebar').classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            }
+            overlay.classList.toggle('active');
         });
     </script>
 </body>

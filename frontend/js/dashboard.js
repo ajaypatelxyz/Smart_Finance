@@ -115,12 +115,59 @@ function getCategoryData() {
 window.openModal = function (id) { document.getElementById(id).classList.add('active'); };
 window.closeModal = function (id) { document.getElementById(id).classList.remove('active'); };
 
+// Category options for each type
+const expenseCategories = [
+    { value: '', label: 'Select category' },
+    { value: 'food', label: 'Food & Dining' },
+    { value: 'shopping', label: 'Shopping' },
+    { value: 'transport', label: 'Transport' },
+    { value: 'entertainment', label: 'Entertainment' },
+    { value: 'bills', label: 'Bills & Utilities' },
+    { value: 'health', label: 'Health' },
+    { value: 'education', label: 'Education' },
+    { value: 'other', label: 'Other' }
+];
+
+const incomeCategories = [
+    { value: '', label: 'Select source' },
+    { value: 'salary', label: 'Salary' },
+    { value: 'freelance', label: 'Freelance' },
+    { value: 'business', label: 'Business' },
+    { value: 'investment', label: 'Investment Returns' },
+    { value: 'rental', label: 'Rental Income' },
+    { value: 'interest', label: 'Interest / Dividends' },
+    { value: 'gift', label: 'Gift / Bonus' },
+    { value: 'refund', label: 'Refund' },
+    { value: 'other', label: 'Other' }
+];
+
+function updateFormForType(type) {
+    const categorySelect = document.getElementById('category');
+    const categoryLabel = document.getElementById('categoryLabel');
+    const descriptionLabel = document.getElementById('descriptionLabel');
+    const descriptionInput = document.getElementById('description');
+    const categories = type === 'income' ? incomeCategories : expenseCategories;
+    categorySelect.innerHTML = categories.map(c =>
+        `<option value="${c.value}">${c.label}</option>`
+    ).join('');
+    if (type === 'income') {
+        categoryLabel.textContent = 'Source';
+        descriptionLabel.textContent = 'Note';
+        descriptionInput.placeholder = 'e.g. March salary, freelance project';
+    } else {
+        categoryLabel.textContent = 'Category';
+        descriptionLabel.textContent = 'Description';
+        descriptionInput.placeholder = 'What did you spend on?';
+    }
+}
+
 // Toggle buttons
 document.querySelectorAll('.toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById('transactionType').value = btn.dataset.value;
+        updateFormForType(btn.dataset.value);
     });
 });
 
@@ -139,6 +186,12 @@ document.getElementById('transactionForm').addEventListener('submit', (e) => {
     localStorage.setItem('transactions', JSON.stringify(transactions));
     closeModal('transactionModal');
     e.target.reset();
+    // Reset form back to expense mode
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.toggle-btn[data-value="expense"]').classList.add('active');
+    document.getElementById('transactionType').value = 'expense';
+    updateFormForType('expense');
+    document.getElementById('date').valueAsDate = new Date();
     showNotification('Transaction added successfully!');
     calculateTotals();
     renderRecentTransactions();

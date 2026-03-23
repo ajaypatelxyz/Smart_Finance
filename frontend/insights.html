@@ -26,18 +26,35 @@
             <a href="goals.html" class="nav-item"><i class="fas fa-bullseye"></i><span>Goals</span></a>
             <div class="nav-divider"></div>
             <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+            <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
         </nav>
         <div class="sidebar-footer"><button onclick="logout()" class="nav-item logout"><i
                     class="fas fa-sign-out-alt"></i><span>Logout</span></button></div>
     </aside>
     <main class="main-content">
         <header class="topbar">
-            <div class="topbar-left"><button class="menu-toggle"><i class="fas fa-bars"></i></button>
-                <h2 style="margin-left: 16px;">AI Insights</h2>
+            <div class="topbar-left">
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
             </div>
             <div class="topbar-right">
-                <div class="user-menu">
-                    <div class="user-avatar">JD</div><span class="user-name" id="userName">User</span>
+                <div class="user-menu-wrapper">
+                    <div class="user-menu" id="userMenuBtn">
+                        <div class="user-avatar" id="userAvatar">JD</div>
+                        <span class="user-name" id="userName">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="dropdown-user-info">
+                            <div class="dropdown-avatar" id="dropdownAvatar">JD</div>
+                            <div class="dropdown-user-details">
+                                <span class="dropdown-user-name" id="dropdownUserName">User</span>
+                                <span class="dropdown-user-email" id="dropdownUserEmail">user@email.com</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i>My Profile</a>
+                        <button class="dropdown-item logout-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i>Logout</button>
+                    </div>
                 </div>
             </div>
         </header>

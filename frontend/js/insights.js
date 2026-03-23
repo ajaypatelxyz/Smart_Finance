@@ -1,4 +1,6 @@
 // AI Insights page JavaScript
+(function() {
+'use strict';
 if (!localStorage.getItem('token')) window.location.href = 'login.html';
 
 const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -65,7 +67,6 @@ window.sendChat = function () {
     chatPreview.innerHTML += `<div class="chat-message user"><p>${msg}</p></div>`;
     input.value = '';
 
-    // Simple AI responses
     const responses = [
         "Based on your spending patterns, I recommend setting up automatic transfers to a savings account on payday.",
         "Your investment portfolio is well-diversified. Consider increasing your SIP amount by 10% annually.",
@@ -81,16 +82,15 @@ window.sendChat = function () {
 };
 
 document.getElementById('chatInput').addEventListener('keypress', e => { if (e.key === 'Enter') sendChat(); });
+
+// Mobile menu toggle
 document.querySelector('.menu-toggle')?.addEventListener('click', () => {
     document.querySelector('.sidebar').classList.toggle('active');
-    
-    // Create or toggle overlay
     let overlay = document.querySelector('.sidebar-overlay');
     if (!overlay) {
         overlay = document.createElement('div');
         overlay.className = 'sidebar-overlay';
         document.body.appendChild(overlay);
-        
         overlay.addEventListener('click', () => {
             document.querySelector('.sidebar').classList.remove('active');
             overlay.classList.remove('active');
@@ -98,6 +98,58 @@ document.querySelector('.menu-toggle')?.addEventListener('click', () => {
     }
     overlay.classList.toggle('active');
 });
+
+// Notification and Profile Dropdown
+const notificationBtn = document.getElementById('notificationBtn');
+const notificationDropdown = document.getElementById('notificationDropdown');
+const userMenuBtn = document.getElementById('userMenuBtn');
+const profileDropdown = document.getElementById('profileDropdown');
+const markAllReadBtn = document.getElementById('markAllRead');
+
+notificationBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    notificationDropdown.classList.toggle('active');
+    profileDropdown?.classList.remove('active');
+});
+
+userMenuBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    profileDropdown.classList.toggle('active');
+    notificationDropdown?.classList.remove('active');
+});
+
+document.addEventListener('click', (e) => {
+    if (!notificationDropdown?.contains(e.target) && !notificationBtn?.contains(e.target)) {
+        notificationDropdown?.classList.remove('active');
+    }
+    if (!profileDropdown?.contains(e.target) && !userMenuBtn?.contains(e.target)) {
+        profileDropdown?.classList.remove('active');
+    }
+});
+
+markAllReadBtn?.addEventListener('click', () => {
+    document.querySelectorAll('.notification-item.unread').forEach(item => item.classList.remove('unread'));
+    const badge = document.getElementById('notificationBadge');
+    if (badge) badge.style.display = 'none';
+    showNotification('All notifications marked as read');
+});
+
+// Update user info
+function updateUserInfo() {
+    const u = JSON.parse(localStorage.getItem('user') || '{}');
+    const initials = (u.name || 'U').substring(0, 2).toUpperCase();
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    if (userAvatar) userAvatar.textContent = initials;
+    if (userName) userName.textContent = u.name || 'User';
+    const dropdownAvatar = document.getElementById('dropdownAvatar');
+    const dropdownUserName = document.getElementById('dropdownUserName');
+    const dropdownUserEmail = document.getElementById('dropdownUserEmail');
+    if (dropdownAvatar) dropdownAvatar.textContent = initials;
+    if (dropdownUserName) dropdownUserName.textContent = u.name || 'User';
+    if (dropdownUserEmail) dropdownUserEmail.textContent = u.email || 'user@email.com';
+}
+updateUserInfo();
 
 // Styles
 const style = document.createElement('style');
@@ -114,12 +166,12 @@ style.textContent = `
 .insight-header .insight-icon { width: 44px; height: 44px; background: var(--bg-glass); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--primary); }
 .insight-header h3 { font-size: 1.1rem; }
 .spending-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-.spending-cat { text-transform: capitalize; min-width: 100px; font-size: 0.875rem; }
+.spending-cat { text-transform: capitalize; min-width: 80px; font-size: 0.875rem; }
 .spending-bar-wrapper { flex: 1; height: 8px; background: var(--bg-glass); border-radius: 4px; overflow: hidden; }
 .spending-bar { height: 100%; border-radius: 4px; }
-.spending-amt { font-size: 0.875rem; font-weight: 500; min-width: 80px; text-align: right; }
+.spending-amt { font-size: 0.875rem; font-weight: 500; min-width: 70px; text-align: right; }
 .insight-tip { display: flex; gap: 12px; padding: 16px; background: var(--bg-glass); border-radius: var(--radius-md); margin-top: 16px; }
-.insight-tip i { color: var(--accent-gold); }
+.insight-tip i { color: var(--accent-gold); flex-shrink: 0; margin-top: 2px; }
 .insight-tip.positive i { color: var(--primary); }
 .insight-tip p { font-size: 0.875rem; color: var(--text-secondary); }
 .savings-meter { height: 12px; background: var(--bg-glass); border-radius: 6px; overflow: hidden; margin-bottom: 12px; }
@@ -127,7 +179,7 @@ style.textContent = `
 .savings-text { font-size: 0.9rem; color: var(--text-secondary); }
 .budget-rules { display: flex; flex-direction: column; gap: 16px; }
 .budget-rule { display: flex; align-items: center; gap: 12px; }
-.rule-category { min-width: 100px; font-size: 0.875rem; }
+.rule-category { min-width: 90px; font-size: 0.875rem; }
 .rule-bar { flex: 1; height: 8px; background: var(--bg-glass); border-radius: 4px; overflow: hidden; }
 .rule-fill { height: 100%; border-radius: 4px; }
 .rule-fill.needs { background: var(--accent-blue); }
@@ -138,7 +190,7 @@ style.textContent = `
 .rule-status.warning { color: var(--accent-gold); }
 .advice-list { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
 .advice-item { display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--text-secondary); }
-.advice-item i { color: var(--primary); margin-top: 3px; }
+.advice-item i { color: var(--primary); margin-top: 3px; flex-shrink: 0; }
 .ai-chat-preview { margin-top: 24px; }
 .chat-preview { max-height: 200px; overflow-y: auto; margin-bottom: 16px; display: flex; flex-direction: column; gap: 16px; }
 .chat-message { display: flex; gap: 12px; align-items: flex-start; }
@@ -148,6 +200,26 @@ style.textContent = `
 .chat-avatar { width: 32px; height: 32px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .chat-input-wrapper { display: flex; gap: 12px; }
 .chat-input-wrapper input { flex: 1; padding: 12px 16px; background: var(--bg-glass); border: 1px solid var(--border-color); border-radius: var(--radius-full); color: var(--text-primary); }
-@media (max-width: 900px) { .insights-grid { grid-template-columns: 1fr; } .health-score-card { flex-direction: column; text-align: center; gap: 24px; } }
+@media (max-width: 900px) {
+    .insights-grid { grid-template-columns: 1fr; }
+    .health-score-card { flex-direction: column; text-align: center; gap: 24px; padding: 24px 20px; }
+}
+@media (max-width: 600px) {
+    .health-score-card { padding: 20px 16px; }
+    .health-content h3 { font-size: 1.25rem; }
+    .score-value { font-size: 2rem; }
+    .insight-card { padding: 20px 16px; }
+    .insight-header h3 { font-size: 1rem; }
+    .spending-item { gap: 8px; }
+    .spending-cat { min-width: 70px; font-size: 0.8rem; }
+    .spending-amt { min-width: 60px; font-size: 0.8rem; }
+    .rule-category { min-width: 80px; font-size: 0.8rem; }
+    .budget-rule { gap: 8px; }
+    .insight-tip { padding: 12px; gap: 10px; }
+    .insight-tip p { font-size: 0.8rem; }
+    .chat-message p { max-width: 90%; font-size: 0.85rem; padding: 10px 14px; }
+    .chat-input-wrapper input { padding: 10px 14px; font-size: 0.875rem; }
+}
 `;
 document.head.appendChild(style);
+})();

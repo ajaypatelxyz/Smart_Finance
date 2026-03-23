@@ -45,29 +45,8 @@
         <header class="topbar">
             <div class="topbar-left">
                 <button class="menu-toggle"><i class="fas fa-bars"></i></button>
-                <h2 class="page-title-topbar">My Goals</h2>
             </div>
             <div class="topbar-right">
-                <div class="notification-wrapper">
-                    <button class="notification-btn" id="notificationBtn"><i class="fas fa-bell"></i><span class="badge"
-                            id="notificationBadge">3</span></button>
-                    <div class="notification-dropdown" id="notificationDropdown">
-                        <div class="dropdown-header">
-                            <h4>Notifications</h4>
-                            <button class="mark-all-read" id="markAllRead">Mark all as read</button>
-                        </div>
-                        <div class="notification-list" id="notificationList">
-                            <div class="notification-item unread">
-                                <div class="notification-icon success"><i class="fas fa-check-circle"></i></div>
-                                <div class="notification-content">
-                                    <p>You're 80% towards your vacation goal!</p>
-                                    <span class="notification-time">1 hour ago</span>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#" class="view-all-notifications">View All Notifications</a>
-                    </div>
-                </div>
                 <div class="user-menu-wrapper">
                     <div class="user-menu" id="userMenuBtn">
                         <div class="user-avatar" id="userAvatar">JD</div>
@@ -84,9 +63,6 @@
                         </div>
                         <div class="dropdown-divider"></div>
                         <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i>My Profile</a>
-                        <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i>Settings</a>
-                        <a href="goals.html" class="dropdown-item"><i class="fas fa-bullseye"></i>Goals</a>
-                        <div class="dropdown-divider"></div>
                         <button class="dropdown-item logout-item" onclick="logout()"><i
                                 class="fas fa-sign-out-alt"></i>Logout</button>
                     </div>
@@ -185,8 +161,32 @@
                         <option value="piggy">🐷 General Savings</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Goal</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 16px;">Create Goal</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Update Savings Modal -->
+    <div class="modal" id="updateSavingsModal">
+        <div class="modal-overlay" onclick="closeModal('updateSavingsModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-wallet" style="color: var(--primary); margin-right: 8px;"></i>Update Savings</h3>
+                <button class="modal-close" onclick="closeModal('updateSavingsModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="update-goal-info" id="updateGoalInfo"></div>
+                <form id="updateSavingsForm">
+                    <input type="hidden" id="updateGoalId">
+                    <div class="form-group">
+                        <label for="addAmount">Amount to Add (₹)</label>
+                        <input type="number" id="addAmount" placeholder="Enter amount you saved" min="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 16px;">
+                        <i class="fas fa-plus-circle"></i> Update Savings
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -246,7 +246,8 @@
                         <div class="goal-header">
                             <div class="goal-icon">${icons[goal.icon] || '🎯'}</div>
                             <div class="goal-actions">
-                                <button class="goal-action-btn" onclick="deleteGoal(${goal.id})"><i class="fas fa-trash"></i></button>
+                                ${!isComplete ? `<button class="goal-action-btn update-btn" onclick="openUpdateSavings(${goal.id})" title="Update Savings"><i class="fas fa-wallet"></i></button>` : ''}
+                                <button class="goal-action-btn delete-btn" onclick="deleteGoal(${goal.id})" title="Delete Goal"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
                         <h3 class="goal-name">${goal.name}</h3>
@@ -257,11 +258,12 @@
                             <span class="goal-current">${formatCurrency(goal.current)}</span>
                             <span class="goal-target">of ${formatCurrency(goal.target)}</span>
                         </div>
+                        <div class="goal-progress-pct">${progress.toFixed(0)}% completed</div>
                         <div class="goal-deadline">
                             <i class="fas fa-calendar"></i>
                             ${new Date(goal.deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                         </div>
-                        ${isComplete ? '<div class="goal-completed-badge"><i class="fas fa-check"></i> Completed!</div>' : ''}
+                        ${!isComplete ? `<button class="btn btn-update-savings" onclick="openUpdateSavings(${goal.id})"><i class="fas fa-plus-circle"></i> Add Savings</button>` : '<div class="goal-completed-badge"><i class="fas fa-check"></i> Completed!</div>'}
                     </div>
                 `;
             }).join('');
@@ -312,6 +314,52 @@
         // Set minimum date for deadline
         document.getElementById('goalDeadline').min = new Date().toISOString().split('T')[0];
 
+        // Update Savings
+        window.openUpdateSavings = function(goalId) {
+            const goal = goals.find(g => g.id === goalId);
+            if (!goal) return;
+            document.getElementById('updateGoalId').value = goalId;
+            document.getElementById('addAmount').value = '';
+            const progress = Math.min((goal.current / goal.target) * 100, 100).toFixed(0);
+            document.getElementById('updateGoalInfo').innerHTML = `
+                <div class="update-goal-preview">
+                    <div class="update-goal-name"><span class="update-goal-icon">${icons[goal.icon] || '🎯'}</span> ${goal.name}</div>
+                    <div class="update-goal-progress">
+                        <div class="goal-progress-bar"><div class="goal-progress-fill" style="width: ${progress}%"></div></div>
+                        <div class="update-goal-amounts">
+                            <span class="goal-current">${formatCurrency(goal.current)}</span>
+                            <span class="goal-target">of ${formatCurrency(goal.target)}</span>
+                        </div>
+                        <span class="update-goal-remaining">Remaining: ${formatCurrency(goal.target - goal.current)}</span>
+                    </div>
+                </div>
+            `;
+            openModal('updateSavingsModal');
+        };
+
+        document.getElementById('updateSavingsForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const goalId = parseInt(document.getElementById('updateGoalId').value);
+            const addAmount = parseFloat(document.getElementById('addAmount').value) || 0;
+            const goal = goals.find(g => g.id === goalId);
+            if (!goal) return;
+
+            if (addAmount <= 0) {
+                showNotification('Please enter a valid amount'); return;
+            }
+
+            goal.current = Math.min(goal.current + addAmount, goal.target);
+            localStorage.setItem('goals', JSON.stringify(goals));
+            closeModal('updateSavingsModal');
+            renderGoals();
+            const progress = Math.min((goal.current / goal.target) * 100, 100);
+            if (progress >= 100) {
+                showNotification(`🎉 Congratulations! You've completed your "${goal.name}" goal!`);
+            } else {
+                showNotification(`Savings updated! ${goal.name} is now ${progress.toFixed(0)}% complete`);
+            }
+        });
+
         // Dropdown functionality
         const notificationBtn = document.getElementById('notificationBtn');
         const notificationDropdown = document.getElementById('notificationDropdown');
@@ -335,9 +383,20 @@
             profileDropdown?.classList.remove('active');
         });
 
-        // Mobile menu toggle
+        // Mobile menu toggle with overlay
         document.querySelector('.menu-toggle')?.addEventListener('click', () => {
             document.querySelector('.sidebar').classList.toggle('active');
+            let overlay = document.querySelector('.sidebar-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'sidebar-overlay';
+                document.body.appendChild(overlay);
+                overlay.addEventListener('click', () => {
+                    document.querySelector('.sidebar').classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            }
+            overlay.classList.toggle('active');
         });
 
         // Initialize

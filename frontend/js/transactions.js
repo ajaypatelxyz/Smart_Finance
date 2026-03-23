@@ -1,4 +1,6 @@
 // Transactions page JavaScript
+(function() {
+'use strict';
 if (!localStorage.getItem('token')) window.location.href = 'login.html';
 
 const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -28,7 +30,7 @@ function renderTransactions(filter = {}) {
     `).join('') : '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No transactions found</td></tr>';
 }
 
-function getCategoryIcon(cat) { return { food: 'utensils', salary: 'briefcase', shopping: 'shopping-bag', transport: 'car', entertainment: 'film', bills: 'file-invoice', health: 'heart', investment: 'chart-line', other: 'ellipsis-h' }[cat] || 'circle'; }
+function getCategoryIcon(cat) { return { food: 'utensils', salary: 'briefcase', shopping: 'shopping-bag', transport: 'car', entertainment: 'film', bills: 'file-invoice', health: 'heart', investment: 'chart-line', freelance: 'laptop', business: 'store', rental: 'home', interest: 'percentage', gift: 'gift', refund: 'undo', education: 'graduation-cap', other: 'ellipsis-h' }[cat] || 'circle'; }
 
 window.deleteTransaction = function (id) {
     if (confirm('Delete this transaction?')) {
@@ -58,29 +60,95 @@ document.getElementById('searchInput').addEventListener('input', () => renderTra
 window.openModal = id => document.getElementById(id).classList.add('active');
 window.closeModal = id => document.getElementById(id).classList.remove('active');
 
+// Category options for each type
+const expenseCategories = [
+    { value: '', label: 'Select category' },
+    { value: 'food', label: 'Food & Dining' },
+    { value: 'shopping', label: 'Shopping' },
+    { value: 'transport', label: 'Transport' },
+    { value: 'entertainment', label: 'Entertainment' },
+    { value: 'bills', label: 'Bills & Utilities' },
+    { value: 'health', label: 'Health' },
+    { value: 'education', label: 'Education' },
+    { value: 'other', label: 'Other' }
+];
+
+const incomeCategories = [
+    { value: '', label: 'Select source' },
+    { value: 'salary', label: 'Salary' },
+    { value: 'freelance', label: 'Freelance' },
+    { value: 'business', label: 'Business' },
+    { value: 'investment', label: 'Investment Returns' },
+    { value: 'rental', label: 'Rental Income' },
+    { value: 'interest', label: 'Interest / Dividends' },
+    { value: 'gift', label: 'Gift / Bonus' },
+    { value: 'refund', label: 'Refund' },
+    { value: 'other', label: 'Other' }
+];
+
+function updateFormForType(type) {
+    const categorySelect = document.getElementById('category');
+    const categoryLabel = document.getElementById('categoryLabel');
+    const descriptionLabel = document.getElementById('descriptionLabel');
+    const descriptionInput = document.getElementById('description');
+
+    const categories = type === 'income' ? incomeCategories : expenseCategories;
+
+    // Update category options
+    categorySelect.innerHTML = categories.map(c =>
+        `<option value="${c.value}">${c.label}</option>`
+    ).join('');
+
+    // Update labels and placeholders
+    if (type === 'income') {
+        categoryLabel.textContent = 'Source';
+        descriptionLabel.textContent = 'Note';
+        descriptionInput.placeholder = 'e.g. March salary, freelance project';
+    } else {
+        categoryLabel.textContent = 'Category';
+        descriptionLabel.textContent = 'Description';
+        descriptionInput.placeholder = 'What did you spend on?';
+    }
+}
+
 document.querySelectorAll('.toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById('transactionType').value = btn.dataset.value;
+        updateFormForType(btn.dataset.value);
     });
 });
 
 document.getElementById('transactionForm').addEventListener('submit', e => {
     e.preventDefault();
-    transactions.unshift({ id: Date.now(), type: document.getElementById('transactionType').value, amount: parseFloat(document.getElementById('amount').value), category: document.getElementById('category').value, description: document.getElementById('description').value, date: document.getElementById('date').value });
+    transactions.unshift({
+        id: Date.now(),
+        type: document.getElementById('transactionType').value,
+        amount: parseFloat(document.getElementById('amount').value),
+        category: document.getElementById('category').value,
+        description: document.getElementById('description').value,
+        date: document.getElementById('date').value
+    });
     localStorage.setItem('transactions', JSON.stringify(transactions));
     closeModal('transactionModal');
     e.target.reset();
+    // Reset form back to expense mode
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.toggle-btn[data-value="expense"]').classList.add('active');
+    document.getElementById('transactionType').value = 'expense';
+    updateFormForType('expense');
+    document.getElementById('date').valueAsDate = new Date();
     showNotification('Transaction added!');
     renderTransactions(getFilters());
 });
 
 document.getElementById('date').valueAsDate = new Date();
+
+// Mobile menu toggle
 document.querySelector('.menu-toggle')?.addEventListener('click', () => {
     document.querySelector('.sidebar').classList.toggle('active');
 
-    // Create or toggle overlay
     let overlay = document.querySelector('.sidebar-overlay');
     if (!overlay) {
         overlay = document.createElement('div');
@@ -94,6 +162,58 @@ document.querySelector('.menu-toggle')?.addEventListener('click', () => {
     }
     overlay.classList.toggle('active');
 });
+
+// Notification and Profile Dropdown Functionality
+const notificationBtn = document.getElementById('notificationBtn');
+const notificationDropdown = document.getElementById('notificationDropdown');
+const userMenuBtn = document.getElementById('userMenuBtn');
+const profileDropdown = document.getElementById('profileDropdown');
+const markAllReadBtn = document.getElementById('markAllRead');
+
+notificationBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    notificationDropdown.classList.toggle('active');
+    profileDropdown?.classList.remove('active');
+});
+
+userMenuBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    profileDropdown.classList.toggle('active');
+    notificationDropdown?.classList.remove('active');
+});
+
+document.addEventListener('click', (e) => {
+    if (!notificationDropdown?.contains(e.target) && !notificationBtn?.contains(e.target)) {
+        notificationDropdown?.classList.remove('active');
+    }
+    if (!profileDropdown?.contains(e.target) && !userMenuBtn?.contains(e.target)) {
+        profileDropdown?.classList.remove('active');
+    }
+});
+
+markAllReadBtn?.addEventListener('click', () => {
+    document.querySelectorAll('.notification-item.unread').forEach(item => item.classList.remove('unread'));
+    const badge = document.getElementById('notificationBadge');
+    if (badge) badge.style.display = 'none';
+    showNotification('All notifications marked as read');
+});
+
+// Update user info in dropdowns
+function updateUserInfo() {
+    const u = JSON.parse(localStorage.getItem('user') || '{}');
+    const initials = (u.name || 'U').substring(0, 2).toUpperCase();
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    if (userAvatar) userAvatar.textContent = initials;
+    if (userName) userName.textContent = u.name || 'User';
+    const dropdownAvatar = document.getElementById('dropdownAvatar');
+    const dropdownUserName = document.getElementById('dropdownUserName');
+    const dropdownUserEmail = document.getElementById('dropdownUserEmail');
+    if (dropdownAvatar) dropdownAvatar.textContent = initials;
+    if (dropdownUserName) dropdownUserName.textContent = u.name || 'User';
+    if (dropdownUserEmail) dropdownUserEmail.textContent = u.email || 'user@email.com';
+}
+updateUserInfo();
 
 // Additional CSS for table
 const style = document.createElement('style');
@@ -117,3 +237,4 @@ td.expense { color: #ef4444; font-weight: 600; }
 document.head.appendChild(style);
 
 renderTransactions();
+})();
