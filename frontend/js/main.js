@@ -68,7 +68,7 @@ function animateCounter(element, target, duration = 2000) {
 }
 
 // Auth helper functions
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'http://localhost:1200/api';
 
 async function apiRequest(endpoint, method = 'GET', data = null) {
     const token = localStorage.getItem('token');

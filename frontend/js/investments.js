@@ -214,6 +214,7 @@ style.textContent = `
     .investment-item { flex-direction: column; text-align: center; gap: 12px; }
     .investment-amounts { text-align: center; }
     .suggestion-card { flex-direction: column; text-align: center; }
+    .chart-body canvas { max-width: 100% !important; width: 100% !important; height: auto !important; }
 }
 `;
 document.head.appendChild(style);

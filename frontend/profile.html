@@ -58,8 +58,8 @@
                 <div class="profile-header-card">
                     <div class="profile-avatar-large" id="profileAvatarLarge">JD</div>
                     <div class="profile-header-info">
-                        <h1 id="profileName">John Doe</h1>
-                        <p id="profileEmail">johndoe@email.com</p>
+                        <h1 id="profileName">Loading...</h1>
+                        <p id="profileEmail">Loading...</p>
                         <span class="profile-badge"><i class="fas fa-check-circle"></i> Verified Account</span>
                     </div>
                     <button class="btn btn-secondary edit-profile-btn" onclick="openModal('editProfileModal')">
@@ -73,7 +73,7 @@
                         <div class="stat-icon income"><i class="fas fa-calendar"></i></div>
                         <div class="stat-info">
                             <span class="stat-label">Member Since</span>
-                            <span class="stat-value" id="memberSince">Jan 2026</span>
+                            <span class="stat-value" id="memberSince">—</span>
                         </div>
                     </div>
                     <div class="profile-stat-card">
@@ -101,15 +101,15 @@
                         <div class="profile-info-list">
                             <div class="profile-info-item">
                                 <span class="info-label">Full Name</span>
-                                <span class="info-value" id="infoName">John Doe</span>
+                                <span class="info-value" id="infoName">—</span>
                             </div>
                             <div class="profile-info-item">
                                 <span class="info-label">Email Address</span>
-                                <span class="info-value" id="infoEmail">johndoe@email.com</span>
+                                <span class="info-value" id="infoEmail">—</span>
                             </div>
                             <div class="profile-info-item">
                                 <span class="info-label">Phone Number</span>
-                                <span class="info-value" id="infoPhone">+91 9876543210</span>
+                                <span class="info-value" id="infoPhone">Not set</span>
                             </div>
                             <div class="profile-info-item">
                                 <span class="info-label">Date of Birth</span>
@@ -135,7 +135,8 @@
                                 <span class="info-value" id="lastLogin">Today</span>
                             </div>
                         </div>
-                        <button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 16px;"
+                            onclick="openModal('changePasswordModal')">
                             <i class="fas fa-key"></i> Change Password
                         </button>
                     </div>
@@ -160,13 +161,52 @@
                 </div>
                 <div class="form-group">
                     <label for="editEmail">Email Address</label>
-                    <input type="email" id="editEmail" placeholder="Enter your email" required>
+                    <input type="email" id="editEmail" placeholder="Your email" disabled
+                        style="opacity: 0.6; cursor: not-allowed;">
+                    <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Email cannot be
+                        changed</span>
                 </div>
                 <div class="form-group">
                     <label for="editPhone">Phone Number</label>
-                    <input type="tel" id="editPhone" placeholder="Enter your phone number">
+                    <input type="tel" id="editPhone" placeholder="Enter your phone number (e.g. +91 9876543210)">
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Save Changes</button>
+                <div class="form-group">
+                    <label for="editDob">Date of Birth</label>
+                    <input type="date" id="editDob">
+                </div>
+                <button type="submit" class="btn btn-primary" id="saveProfileBtn" style="width: 100%;">
+                    <span>Save Changes</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-overlay" onclick="closeModal('changePasswordModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Password</h3>
+                <button class="modal-close" onclick="closeModal('changePasswordModal')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="changePasswordForm" class="modal-body">
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword" placeholder="Enter current password" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password (min 6 characters)"
+                        required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="confirmNewPassword">Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" placeholder="Confirm new password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="changePasswordBtn" style="width: 100%;">
+                    <span>Change Password</span>
+                </button>
             </form>
         </div>
     </div>
@@ -178,56 +218,180 @@
             window.location.href = 'login.html';
         }
 
-        // Load user info
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        const initials = (user.name || 'U').substring(0, 2).toUpperCase();
-
-        // Update all user displays
-        document.getElementById('profileAvatarLarge').textContent = initials;
-        document.getElementById('profileName').textContent = user.name || 'User';
-        document.getElementById('profileEmail').textContent = user.email || 'user@email.com';
-        document.getElementById('infoName').textContent = user.name || 'User';
-        document.getElementById('infoEmail').textContent = user.email || 'user@email.com';
-
-        // Get transaction count
-        const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
-        document.getElementById('totalTransactions').textContent = transactions.length;
-
         // Modal functions
         window.openModal = function (id) { document.getElementById(id).classList.add('active'); };
         window.closeModal = function (id) { document.getElementById(id).classList.remove('active'); };
 
-        // Prefill edit form
-        document.getElementById('editName').value = user.name || '';
-        document.getElementById('editEmail').value = user.email || '';
-        document.getElementById('editPhone').value = user.phone || '';
+        // ===== LOAD PROFILE FROM BACKEND =====
+        async function loadProfile() {
+            try {
+                const response = await apiRequest('/auth/me');
+                const user = response;
 
-        // Handle profile edit
-        document.getElementById('editProfileForm').addEventListener('submit', (e) => {
+                // Save fresh data to localStorage
+                localStorage.setItem('user', JSON.stringify({
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone || '',
+                    dob: user.dob || ''
+                }));
+
+                updateProfileDisplay(user);
+            } catch (error) {
+                // Fallback to localStorage if API fails
+                console.warn('Could not fetch profile from server, using cached data');
+                const cached = JSON.parse(localStorage.getItem('user') || '{}');
+                updateProfileDisplay(cached);
+            }
+        }
+
+        function updateProfileDisplay(user) {
+            const name = user.name || 'User';
+            const email = user.email || 'user@email.com';
+            const phone = user.phone || '';
+            const dob = user.dob || '';
+            const initials = name.substring(0, 2).toUpperCase();
+
+            // Header
+            document.getElementById('profileAvatarLarge').textContent = initials;
+            document.getElementById('profileName').textContent = name;
+            document.getElementById('profileEmail').textContent = email;
+
+            // Personal info
+            document.getElementById('infoName').textContent = name;
+            document.getElementById('infoEmail').textContent = email;
+            document.getElementById('infoPhone').textContent = phone || 'Not set';
+
+            if (dob) {
+                const dobDate = new Date(dob);
+                document.getElementById('infoDob').textContent = dobDate.toLocaleDateString('en-IN', {
+                    day: 'numeric', month: 'long', year: 'numeric'
+                });
+            } else {
+                document.getElementById('infoDob').textContent = 'Not set';
+            }
+
+            // Member since
+            if (user.createdAt) {
+                const memberDate = new Date(user.createdAt);
+                document.getElementById('memberSince').textContent = memberDate.toLocaleDateString('en-IN', {
+                    month: 'short', year: 'numeric'
+                });
+            }
+
+            // Edit form prefill
+            document.getElementById('editName').value = name;
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editPhone').value = phone;
+            document.getElementById('editDob').value = dob;
+
+            // Stats
+            const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+            document.getElementById('totalTransactions').textContent = transactions.length;
+
+            const goals = JSON.parse(localStorage.getItem('goals') || '[]');
+            const completed = goals.filter(g => g.current >= g.target).length;
+            document.getElementById('goalsCompleted').textContent = completed;
+
+            // Last login
+            document.getElementById('lastLogin').textContent = new Date().toLocaleDateString('en-IN', {
+                day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+        }
+
+        // ===== EDIT PROFILE (SAVES TO BACKEND) =====
+        document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const updatedUser = {
-                ...user,
-                name: document.getElementById('editName').value,
-                email: document.getElementById('editEmail').value,
-                phone: document.getElementById('editPhone').value
-            };
-            localStorage.setItem('user', JSON.stringify(updatedUser));
-            closeModal('editProfileModal');
-            showNotification('Profile updated successfully!');
-            setTimeout(() => location.reload(), 500);
+            const btn = document.getElementById('saveProfileBtn');
+            const name = document.getElementById('editName').value.trim();
+            const phone = document.getElementById('editPhone').value.trim();
+            const dob = document.getElementById('editDob').value;
+
+            if (!name) {
+                showNotification('Name is required', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const response = await apiRequest('/auth/profile', 'PUT', { name, phone, dob });
+
+                // Update localStorage with new data
+                const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+                const updatedUser = { ...currentUser, name: response.user.name, phone: response.user.phone, dob: response.user.dob };
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+
+                closeModal('editProfileModal');
+                showNotification('Profile updated successfully!', 'success');
+
+                // Re-load profile display
+                updateProfileDisplay({ ...updatedUser, createdAt: currentUser.createdAt });
+                loadProfile(); // Fetch fresh from server
+            } catch (error) {
+                showNotification(error.message || 'Failed to update profile', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>Save Changes</span>';
+            }
         });
 
-        // Mobile menu toggle
+        // ===== CHANGE PASSWORD (BACKEND API) =====
+        document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('changePasswordBtn');
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            if (!currentPassword) {
+                showNotification('Please enter your current password', 'error');
+                return;
+            }
+            if (!newPassword) {
+                showNotification('Please enter a new password', 'error');
+                return;
+            }
+            if (newPassword.length < 6) {
+                showNotification('New password must be at least 6 characters', 'error');
+                return;
+            }
+            if (newPassword !== confirmNewPassword) {
+                showNotification('New passwords do not match', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Changing...';
+
+            try {
+                await apiRequest('/auth/change-password', 'PUT', { currentPassword, newPassword });
+
+                closeModal('changePasswordModal');
+                showNotification('Password changed successfully!', 'success');
+
+                // Clear the form
+                document.getElementById('changePasswordForm').reset();
+            } catch (error) {
+                showNotification(error.message || 'Failed to change password', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>Change Password</span>';
+            }
+        });
+
+        // ===== MOBILE MENU TOGGLE =====
         document.querySelector('.menu-toggle')?.addEventListener('click', () => {
             document.querySelector('.sidebar').classList.toggle('active');
-            
-            // Create or toggle overlay
+
             let overlay = document.querySelector('.sidebar-overlay');
             if (!overlay) {
                 overlay = document.createElement('div');
                 overlay.className = 'sidebar-overlay';
                 document.body.appendChild(overlay);
-                
+
                 overlay.addEventListener('click', () => {
                     document.querySelector('.sidebar').classList.remove('active');
                     overlay.classList.remove('active');
@@ -235,6 +399,9 @@
             }
             overlay.classList.toggle('active');
         });
+
+        // Load profile on page load
+        loadProfile();
     </script>
 </body>
 

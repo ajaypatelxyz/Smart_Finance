@@ -5,6 +5,8 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true },
+    phone: { type: String, default: '' },
+    dob: { type: String, default: '' },
     riskProfile: { type: String, enum: ['Conservative', 'Moderate', 'Aggressive'], default: 'Moderate' },
     financialGoals: [{ name: String, target: Number, current: Number, deadline: Date }]
 }, { timestamps: true });
